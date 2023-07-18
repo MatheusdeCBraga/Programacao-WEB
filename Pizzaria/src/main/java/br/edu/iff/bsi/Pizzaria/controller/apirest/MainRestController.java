@@ -43,17 +43,17 @@ public class MainRestController {
 	}
 	*/
 
-	@PostMapping("/new")
-	@ResponseBody
-	public String addItem(@RequestParam Map<String, String> allParams) {
-		return "Os parametros foram " + allParams.entrySet();}
-	  @GetMapping("/{id}") public String page (@PathVariable("id") int id) { return
-	  "teste " + id; }
+	//@PostMapping("/new")
+	//@ResponseBody
+	//public String addItem(@RequestParam Map<String, String> allParams) {
+	//	return "Os parametros foram " + allParams.entrySet();}
+	 // @GetMapping("/{id}") public String page (@PathVariable("id") int id) { return
+	 // "teste " + id; }
 	  
 	  
-	  @GetMapping("/{id}") public String page2 (@PathVariable("id") int
-	  id, @RequestParam("nome") String nome) { return "teste " + id + " nome " +
-	  nome; }
+	//  @GetMapping("/{id}") public String page2 (@PathVariable("id") int
+	//  id, @RequestParam("nome") String nome) { return "teste " + id + " nome " +
+	//  nome; }
 	 
 
 	/*
@@ -82,16 +82,14 @@ public class MainRestController {
 	  HashMap<>(); erro.put("Erro", "Insira os valores!"); return erro; } }
 	 */
 
-	@PostMapping("/new/users")
-	@ResponseStatus(HttpStatus.CREATED)
-	public String registerPessoa(@ModelAttribute Cliente cliente) {
-		System.out.println("ID da pessoa: " + cliente.getId());
-		System.out.println("Nome da pessoa: " + cliente.getNome());
-		System.out.println("Email da pessoa: " + cliente.getEmail());
-		System.out.println("CPF da pessoa: " + cliente.getcpf());
-		System.out.println("Saldo da pessoa: " + cliente.getSaldoDisponivel());
-		return "Sucesso";
-	}
+	//@PostMapping("/new/users")
+	//@ResponseStatus(HttpStatus.CREATED)
+	//public String registerPessoa(@ModelAttribute Cliente cliente) {
+		//System.out.println("ID da pessoa: " + cliente.getId());
+		//System.out.println("Nome da pessoa: " + cliente.getNome());
+
+//
+	//}
 	}
 	
 

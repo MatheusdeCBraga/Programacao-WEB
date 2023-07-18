@@ -1,45 +1,77 @@
 package br.edu.iff.bsi.Pizzaria.entities;
 
-public class Cliente {
-	private float saldoDisponivel;
+import java.io.Serializable;
 
-    public Cliente(String id, String nome, String email, String cpf, String password, float saldoDisponivel) {
-  
-    	super();
-    	
-    	
-        this.saldoDisponivel = saldoDisponivel;
-    }
-    
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-    public float getSaldoDisponivel() {
-        return saldoDisponivel;
-    }
+@Entity
+public class Cliente implements Serializable{
+	private static final long serialVersionUID = 1L;
 
-    public void setSaldoDisponivel(float saldoDisponivel) {
-        this.saldoDisponivel = saldoDisponivel;
-    }
-
-	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	@Column(nullable = false)
+	private String nome;
+	@Column(nullable = false)
+	private String endereco;
+	@Column(nullable = false)
+	private String telefone;
+	@Column(nullable = false)
+	private String password;
+	
+	public Cliente(String nome, String endereco, String telefone, String password) {
+		this.nome=nome;
+		this.endereco=endereco;
+		this.telefone=telefone;
+		this.password = password;
 	}
 
-	public String getEmail() {
-		// TODO Auto-generated method stub
-		return null;
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNome() {
-		// TODO Auto-generated method stub
-		return null;
+		return nome;
 	}
 
-
-	public String getcpf() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
 
 	
-}
+
+	}
