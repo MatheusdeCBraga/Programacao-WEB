@@ -21,6 +21,10 @@ public class Ingrediente implements Serializable {
 	private int quantidadeEstoque;
 	@Column(nullable = false)
 	private double preco;
+	
+	public Ingrediente() {
+		
+	}
 
 	public Ingrediente(Long id, String nome, int quantidadeEstoque, double preco) {
 		super();

@@ -18,10 +18,10 @@ public class IngredienteService {
 		return ingredienteRepository.save(ingrediente);
 	}
 
-	public List<IngredienteController> listarIngredientes() {
-		
-		return null;
+	public List<Ingrediente> getAllIngredientes() {
+        return ingredienteRepository.findAll();
+    }
 	}
 
-}
+
 

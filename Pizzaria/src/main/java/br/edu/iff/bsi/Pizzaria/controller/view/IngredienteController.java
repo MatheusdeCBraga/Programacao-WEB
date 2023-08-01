@@ -22,7 +22,17 @@ public class IngredienteController {
         this.ingredienteService = ingredienteService;
     }
 
-    
+    @GetMapping("/ingredientes")
+    public String listarIngredientes(Model model) {
+        // Obtém a lista de ingredientes do serviço
+        List<Ingrediente> ingredientes = ingredienteService.getAllIngredientes();
+
+        // Adiciona a lista de ingredientes ao modelo para ser usada na view
+        model.addAttribute("ingredientes", ingredientes);
+
+        // Retorna o nome da view (HTML) que exibirá a lista de ingredientes
+        return "lista-ingredientes";
+    }
 
     @GetMapping("/adicionar-ingrediente")
     public String exibirFormularioAdicionarIngrediente(Model model) {
