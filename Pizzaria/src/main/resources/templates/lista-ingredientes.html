@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Ingredientes</title>
+</head>
+<body>
+    <h1>/lista-ingredientes</h1>
+    <ul>
+        <!-- Loop para exibir cada ingrediente na lista -->
+        <th:block th:each="ingrediente : ${ingredientes}">
+            <li th:text="${ingrediente.nome} + ' - ' + ${ingrediente.quantidade}"></li>
+        </th:block>
+    </ul>
+</body>
+</html>

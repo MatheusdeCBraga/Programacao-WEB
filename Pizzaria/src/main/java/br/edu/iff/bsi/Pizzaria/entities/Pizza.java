@@ -25,13 +25,8 @@ public class Pizza implements Serializable{
 	@OneToOne
 	private ItemPedido itempedido;
 
-	public Pizza(Long id, String tamanho, String sabor, float preco, ItemPedido itempedido) {
-		super();
-		this.id = id;
-		this.tamanho = tamanho;
-		this.sabor = sabor;
-		this.preco = preco;
-		this.itempedido = itempedido;
+	public Pizza() {
+		
 	}
 
 	public Long getId() {

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Adicionar Pizza</title>
+</head>
+<body>
+    <h1>Adicionar Pizza</h1>
+    <form action="/pizzas/adicionar" method="post">
+        <label for="tamanho">Tamanho:</label>
+        <input type="text" id="tamanho" name="tamanho" required>
+        <br>
+
+        <label for="sabor">Sabor:</label>
+        <input type="text" id="sabor" name="sabor" required>
+        <br>
+
+        <label for="preco">Preço:</label>
+        <input type="number" step="0.01" id="preco" name="preco" required>
+        <br>
+
+        <!-- Aqui você pode adicionar outros campos relacionados à pizza -->
+
+        <input type="submit" value="Adicionar">
+    </form>
+
+    <!-- Mensagem de sucesso -->
+    <p th:if="${success}" style="color: green;">Pizza adicionada com sucesso!</p>
+</body>
+</html>
