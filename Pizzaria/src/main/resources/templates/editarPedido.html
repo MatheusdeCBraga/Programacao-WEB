@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Editar Pedido</title> 
+</head> 
+<body> 
+    <h1>Editar Pedido</h1> 
+    <form action="/pedidos/{id}" method="POST"> 
+        <input type="hidden" name="_method" value="PUT"> 
+        <label for="dataDoPedido">Data do Pedido:</label><br> 
+        <input type="date" id="dataDoPedido" name="dataDoPedido" value="{dataDoPedido}"><br><br> 
+        <label for="numeroPedido">Número do Pedido:</label><br> 
+        <input type="text" id="numeroPedido" name="numeroPedido" value="{numeroPedido}"><br><br> 
+        <label for="cliente">Cliente:</label><br> 
+        <select id="cliente" name="cliente"> 
+            <!-- Opções de clientes aqui --> 
+        </select><br><br> 
+        <label for="funcionario">Funcionário:</label><br> 
+        <select id="funcionario" name="funcionário"> 
+            <!-- Opções de funcionários aqui --> 
+        </select><br><br> 
+        <input type="submit" value="Salvar Alterações"> 
+    </form> 
+</body> 
+</html> 

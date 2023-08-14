@@ -13,23 +13,35 @@ public class Cliente implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	@Column(nullable = false)
-	private String nome;
-	@Column(nullable = false)
-	private String endereco;
-	@Column(nullable = false)
-	private String telefone;
-	@Column(nullable = false)
-	private String password;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column(nullable = false)
+    private String nome;
+    @Column(nullable = false)
+    private String sobrenome;
+    @Column(nullable = false)
+    private String endereco;
+    @Column(nullable = false)
+    private String bairro;
+    @Column(nullable = false)
+    private String telefone;
+    @Column(nullable = false)
+    private String password;
 	
-	public Cliente(String nome, String endereco, String telefone, String password) {
-		this.nome=nome;
-		this.endereco=endereco;
-		this.telefone=telefone;
-		this.password = password;
+	public Cliente() {
 	}
+	
+		public Cliente(String nome, String sobrenome, String endereco, String bairro, String telefone, String password) {
+			super();
+		    this.nome = nome;
+		    this.sobrenome = sobrenome;
+		    this.endereco = endereco;
+		    this.bairro = bairro;
+		    this.telefone = telefone;
+		    this.password = password;
+		}
+	
+	
 
 	public Long getId() {
 		return id;
@@ -69,6 +81,22 @@ public class Cliente implements Serializable{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getSobrenome() {
+		return sobrenome;
+	}
+
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome;
+	}
+
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
 	}
 	
 

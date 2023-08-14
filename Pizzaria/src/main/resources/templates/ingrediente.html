@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Ingrediente</title>
+</head>
+<body>
+    <h1>Cadastro de Ingrediente</h1>
+    
+    <form th:object="${ingrediente}" th:action="@{/ingrediente/saveIngrediente}" method="post">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" th:field="*{nome}" />
+        
+        <label for="quantidade">Quantidade de Estoque:</label>
+        <input type="number" id="quantidade" th:field="*{quantidadeEstoque}" />
+        
+        <label for="preco">Preço:</label>
+        <input type="text" id="preco" th:field="*{preco}" />
+        
+        <button type="submit">Cadastrar Ingrediente</button>
+    </form>
+    
+    <a href="/ingrediente/listar">Voltar para a Lista de Ingredientes</a>
+</body>
+</html>

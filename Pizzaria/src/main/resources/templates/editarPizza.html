@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Pizza</title>]
+</head>
+<body>
+    <h1>Editar Pizza</h1>
+    
+    <form th:object="${pizza}" th:action="@{/pizza/atualizar}" method="post">
+		<input type="hidden" name="_method" value="put" />
+        <input type="hidden" th:field="*{id}" />
+        
+        <label for="tamanho">Tamanho:</label>
+        <input type="text" id="tamanho" th:field="*{tamanho}" />
+        
+        <label for="sabor">Sabor:</label>
+        <input type="text" id="sabor" th:field="*{sabor}" />
+        
+        <label for="preco">Preço:</label>
+        <input type="text" id="preco" th:field="*{preco}" />
+        
+        <fieldset>
+            <legend>Ingredientes:</legend>
+            <th:block th:each="ingrediente : ${ingredientes}">
+                <input type="checkbox" th:field="*{ingredientes}" th:value="${ingrediente.id}" />
+                <label th:text="${ingrediente.nome}"></label><br />
+            </th:block>
+        </fieldset>
+        
+        <button type="submit">Atualizar Pizza</button>
+    </form>
+    
+    <a href="/pizza/listar">Voltar para a Lista de Pizzas</a>
+</body>
+</html>

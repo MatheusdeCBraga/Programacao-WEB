@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Seus metadados e links de estilo aqui -->
+</head>
+
+<body>
+    <h2>Listagem de Pedidos</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Data do Pedido</th>
+                <th>Cliente</th>
+                <th>Funcionário</th>
+                <th>Itens de Pedido</th> <!-- Adicione esta coluna -->
+                <th>Quantidade</th> <!-- Adicione esta coluna -->
+                <th>Sabor</th> <!-- Adicione esta coluna -->
+                <th>Tamanho</th> <!-- Adicione esta coluna -->
+                <!-- Adicione mais colunas para outros atributos, se necessário -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="pedido : ${pedidos}">
+                <td th:text="${pedido.id}"></td>
+                <td th:text="${#dates.format(pedido.dataDoPedido, 'dd/MM/yyyy')}"></td>
+                <td th:text="${pedido.cliente.nome}"></td>
+                <td th:if="${pedido.funcionario != null}" th:text="${pedido.funcionario.nome}"></td>
+                <td th:unless="${pedido.funcionario != null}">n/a</td>
+                <td>
+                    <ul>
+                        <li th:each="item : ${pedido.itensPedido}">
+                            (Quantidade: <span th:text="${item.quantidade_de_itens}"></span>)
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li th:each="item : ${pedido.itensPedido}">
+                            (Sabor: <span th:text="${item.pizza.sabor}"></span>)
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li th:each="item : ${pedido.itensPedido}">
+                            (Tamanho: <span th:text="${item.pizza.tamanho}"></span>)
+                        </li>
+                    </ul>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Seus scripts ou outros elementos HTML aqui -->
+</body>
+
+</html>
+

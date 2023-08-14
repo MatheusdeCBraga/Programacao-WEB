@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Editar Item Pedido</title>
+</head>
+
+<body>
+	<h1>Editar Item Pedido</h1>
+
+	<form action="/itempedido/atualizar" method="post">
+		<input type="hidden" name="_method" value="put" th:object="${item}" />
+
+		<label for="quantidade_de_itens">Quantidade de Itens:</label>
+		<input type="number" id="quantidade_de_itens" th:field="*{quantidade_de_itens}" />
+
+		<fieldset>
+			<legend>Pizzas:</legend>
+			<th:block th:each="pizza : ${pizzas}">
+				<input type="radio" name="selectedPizza" th:value="${pizza.id}"
+					th:checked="${pizza.id == item.pizza.id}" />
+				<label th:text="${pizza.sabor}"></label><br />
+			</th:block>
+		</fieldset>
+
+
+		<button type="submit">Atualizar Item Pedido</button>
+	</form>
+
+	<a href="/itempedido/listar">Voltar para a Lista de Itens</a>
+</body>
+
+</html>

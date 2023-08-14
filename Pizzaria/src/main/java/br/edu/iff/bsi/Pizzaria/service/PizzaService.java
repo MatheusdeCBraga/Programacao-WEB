@@ -1,40 +1,69 @@
 package br.edu.iff.bsi.Pizzaria.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import br.edu.iff.bsi.Pizzaria.repository.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.edu.iff.bsi.Pizzaria.entities.*;
 import br.edu.iff.bsi.Pizzaria.repository.*;
+import jakarta.transaction.Transactional;
 
 @Service
 public class PizzaService {
-	@Autowired
-	PizzaRepository PizzaRep;
 
-	public Pizza salvarPizza(Pizza pizza) {
-		return PizzaRep.save(pizza);
+	@Autowired
+	private PizzaRepository pizzaRepository;
+
+	@Transactional
+	public void salvarPizza(Pizza pizza) {
+		pizzaRepository.save(pizza);
 	}
 
 	public List<Pizza> listarPizzas() {
-		return PizzaRep.findAll();
+		return pizzaRepository.findAll();
 	}
 
-	public Pizza atualizarPizza(Pizza pizza) {
-		if (pizza.getId() != null) {
-			return PizzaRep.save(pizza);
-		} else {
-			throw new RuntimeException("Pizza inexistente no Banco de Dados. Favor adicionar essa Pizza");
-		}
+	public Pizza buscarPizzaPorId(Long id) throws NotFoundException {
+		return pizzaRepository.findById(id).orElseThrow(() -> new NotFoundException());
+	}
+	public List<Pizza> buscarPizzasPorIds(List<Long> ids) {
+	    return pizzaRepository.findAllById(ids);
 	}
 
-	public void removerPizza(Long PizzaId) {
-		PizzaRep.deleteById(PizzaId);
+
+	public void atualizarPizza(Pizza pizza) {
+		pizzaRepository.save(pizza);
 	}
-	
-	public Pizza buscarPizzaPorId(Long id) {
-        return PizzaRep.findById(id).orElse(null);
+
+	public void removerPizza(Long id) {
+		pizzaRepository.deleteById(id);
+	}
+
+	@Transactional
+	public List<Pizza> listarPizzasComIngredientes() {
+		List<Pizza> pizzas = pizzaRepository.findAll();
+	    System.out.println(pizzas);
+	    return pizzas;
     }
 
+	public List<String> listarSaboresPizza() {
+        List<Pizza> pizzas = pizzaRepository.findAll();
+        List<String> saboresPizza = pizzas.stream()
+            .map(Pizza::getSabor)
+            .collect(Collectors.toList());
+        return saboresPizza;
+    }
+	
+	
+	
+	
+
 }
+	
+	
+	
+

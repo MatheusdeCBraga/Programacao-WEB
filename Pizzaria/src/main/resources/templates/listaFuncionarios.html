@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Funcionários</title>
+</head>
+<body>
+    <h1>Lista de Funcionários</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Cargo</th>
+            <th>Salário</th>
+            <th>Email</th>
+            <th>Ações</th>
+        </tr>
+
+        <!-- Aqui você pode iterar sobre a lista de funcionários e exibir cada um -->
+        <!-- Você também pode adicionar links para editar e excluir o funcionário -->
+        <tr th:each="funcionario : ${funcionarios}">
+            <td th:text="${funcionario.id}"></td> 
+            <td th:text="${funcionario.nome}"></td> 
+            <td th:text="${funcionario.cargo}"></td> 
+            <td th:text="${funcionario.salario}"></td> 
+            <td th:text="${funcionario.email}"></td> 
+            <td> 
+                <a th:href="@{/funcionario/editar(id=${funcionario.id})}">Editar</a> | 
+                <a th:href="@{/funcionario/excluir(id=${funcionario.id})}">Excluir</a> 
+            </td> 
+        </tr>
+
+    </table> 
+</body>
+</html>
+
+</html>

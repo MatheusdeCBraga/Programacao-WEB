@@ -1,19 +1,22 @@
 package br.edu.iff.bsi.Pizzaria.entities;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.ArrayList;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Ingrediente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	@Column(nullable = false)
 	private String nome;
@@ -22,24 +25,29 @@ public class Ingrediente implements Serializable {
 	@Column(nullable = false)
 	private double preco;
 	
-	public Ingrediente() {
+	@ManyToMany(mappedBy = "ingredientes")
+	private List<Pizza> pizzas = new ArrayList<>();
+	
+	public Ingrediente(){
 		
 	}
-
-	public Ingrediente(Long id, String nome, int quantidadeEstoque, double preco) {
+	
+	public Ingrediente(long ultimoId, String nome, int quantidadeEstoque, double preco) {
 		super();
-		this.id = id;
+		this.id = ultimoId;
 		this.nome = nome;
 		this.quantidadeEstoque = quantidadeEstoque;
 		this.preco = preco;
 	}
+	
+	
 
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setId(long ultimoId) {
+		this.id = ultimoId;
 	}
 
 	public String getNome() {
@@ -64,5 +72,19 @@ public class Ingrediente implements Serializable {
 
 	public void setPreco(double preco) {
 		this.preco = preco;
+	}
+	private Ingrediente findIngredienteById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public String toString() {
+	    return "Ingrediente{" +
+	            "id=" + id +
+	            ", nome='" + nome + '\'' +
+	            ", quantidadeEstoque=" + quantidadeEstoque +
+	            ", preco=" + preco +
+	            '}';
 	}
 }
