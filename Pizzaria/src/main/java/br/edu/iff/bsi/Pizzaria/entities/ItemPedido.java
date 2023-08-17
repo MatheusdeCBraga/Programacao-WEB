@@ -23,68 +23,51 @@ import jakarta.persistence.Transient;
 
 @Entity
 public class ItemPedido implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	@Column(nullable = false)
-	private int quantidade_de_itens;
+    @ManyToOne
+    private Pizza pizza;
+    @Column(nullable = false)
+    private int quantidadeDeItens;
+    
+    public ItemPedido() {
+    	
+    }
+    
 
-	@ManyToOne
-	@JoinColumn(name = "pedido_id")
-	private Pedido pedido;
-
-	@ManyToOne
-	@JoinColumn(name = "pizza_id")
-	private Pizza pizza;
-
-	public ItemPedido() {
-
-	}
-
-	public ItemPedido(Long id, int quantidade_de_itens, Pizza pizza) {
+    
+    public ItemPedido(Long id, Pizza pizza, int quantidadeDeItens) {
 		super();
 		this.id = id;
-		this.quantidade_de_itens = quantidade_de_itens;
 		this.pizza = pizza;
+		this.quantidadeDeItens = quantidadeDeItens;
 	}
+
+
 
 	public Long getId() {
-		return id;
-	}
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public Pizza getPizza() {
+        return pizza;
+    }
 
-	public Pizza getPizza() {
-		return pizza;
-	}
+    public void setPizza(Pizza pizza) {
+        this.pizza = pizza;
+    }
 
-	public void setPizza(Pizza pizza) {
-		this.pizza = pizza;
-	}
+    public int getQuantidadeDeItens() {
+        return quantidadeDeItens;
+    }
 
-	public int getQuantidade_de_itens() {
-		return quantidade_de_itens;
-	}
-
-	public void setQuantidade_de_itens(int quantidade_de_itens) {
-		this.quantidade_de_itens = quantidade_de_itens;
-	}
-
-	public void setSabor(String sabor) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public Pedido getPedido() {
-		return pedido;
-	}
-
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
-	}
+    public void setQuantidadeDeItens(int quantidadeDeItens) {
+        this.quantidadeDeItens = quantidadeDeItens;
+    }
 }

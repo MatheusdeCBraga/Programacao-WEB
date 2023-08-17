@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -16,102 +17,104 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
-
+import java.util.Calendar;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Pedido implements Serializable {
-	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
 
-	@Column(nullable = false)
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date dataDoPedido;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column(nullable = false)
+    private Date dataDoPedido;
 
-	@Column(nullable = false, unique = true)
-	private String numeroPedido;
+    @OneToMany(mappedBy = "pedido",cascade = CascadeType.ALL)
+    private List<Pizza> pizzas;
+    @Column(nullable = false)
+    private String formaDePagamento;
 
-	@ManyToOne
-	@JoinColumn(name = "cliente_id")
-	private Cliente cliente;
+    @ManyToOne
+    private Cliente cliente;
 
-	@ManyToOne
-	@JoinColumn(name = "funcionario_id")
-	private Funcionario funcionario;
+    @ManyToOne
+    private Funcionario funcionario;
+    
 
-	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ItemPedido> itensPedido = new ArrayList<>();
+    
+    public Pedido() {
+    	
+    }
+    
 
-	@OneToOne(mappedBy = "pedido")
-	private Entrega entrega;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
+    public Pedido(Long id, Date dataDoPedido, List<Pizza> pizzas, String formaDePagamento, Cliente cliente,
+			Funcionario funcionario) {
+		super();
 		this.id = id;
+		this.dataDoPedido = dataDoPedido;
+		this.pizzas = pizzas;
+		this.formaDePagamento = formaDePagamento;
+		this.cliente = cliente;
+		this.funcionario = funcionario;
+		
 	}
 
-	public String getNumeroPedido() {
-		return numeroPedido;
-	}
-
-	public void setNumeroPedido(String numeroPedido) {
-		this.numeroPedido = numeroPedido;
-	}
 
 	public Date getDataDoPedido() {
-		return dataDoPedido;
-	}
+        return dataDoPedido;
+    }
 
-	public void setDataDoPedido(Date dataDoPedido) {
-		this.dataDoPedido = dataDoPedido;
-	}
+    public void setDataDoPedido(Date dataDoPedido) {
+        this.dataDoPedido = dataDoPedido;
+    }
 
-	// public List<ItemPedido> getItensPedido() {
-	// return itensPedido;
-	// }
+    public List<Pizza> getPizzas() {
+        return pizzas;
+    }
 
-	// public void setItensPedido(List<ItemPedido> itensPedido) {
-	// this.itensPedido = itensPedido;
-	// }
-	
-	 public List<ItemPedido> getItensPedido() {
-	        return itensPedido;
-	    }
+    public void setPizzas(List<Pizza> pizzas) {
+        this.pizzas = pizzas;
+    }
 
-	    public void setItensPedido(List<ItemPedido> itensPedido) {
-	        this.itensPedido = itensPedido;
-	    }
+    public String getFormaDePagamento() {
+        return formaDePagamento;
+    }
 
-	    public void adicionarItemPedido(ItemPedido itemPedido) {
-	        itemPedido.setPedido(this); // Associe o pedido ao itemPedido
-	        itensPedido.add(itemPedido);
-	    }
+    public void setFormaDePagamento(String formaDePagamento) {
+        this.formaDePagamento = formaDePagamento;
+    }
 
-	    public void removerItemPedido(ItemPedido itemPedido) {
-	        itensPedido.remove(itemPedido);
-	        itemPedido.setPedido(null); // Remova a associação do itemPedido com o pedido
-	    }
+    public Cliente getCliente() {
+        return cliente;
+    }
 
-	public Cliente getCliente() {
-		return cliente;
-	}
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
 
-	public Funcionario getFuncionario() {
-		return funcionario;
-	}
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
+    }
 
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
-	}
+  
+    
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+//    public void adicionarPizza(Pizza pizza) {
+//        pizzas.add(pizza);
+//        pizza.setPedido(this); // Configura o relacionamento bidirecional
+//    }
+    
+    
 }

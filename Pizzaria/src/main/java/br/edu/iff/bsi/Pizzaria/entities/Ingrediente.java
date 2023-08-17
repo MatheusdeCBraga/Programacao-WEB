@@ -13,78 +13,57 @@ import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Ingrediente implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	@Column(nullable = false)
-	private String nome;
-	@Column(nullable = false)
-	private int quantidadeEstoque;
-	@Column(nullable = false)
-	private double preco;
-	
-	@ManyToMany(mappedBy = "ingredientes")
-	private List<Pizza> pizzas = new ArrayList<>();
-	
-	public Ingrediente(){
-		
-	}
-	
-	public Ingrediente(long ultimoId, String nome, int quantidadeEstoque, double preco) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column(nullable = false)
+    private String nome;
+    @Column(nullable = false)
+    private int quantidadeDeEstoque;
+    @Column(nullable = false)
+    private double preco;
+
+    public Ingrediente () {
+    	
+    }
+    public Ingrediente(Long id, String nome, int quantidadeDeEstoque, double preco) {
 		super();
-		this.id = ultimoId;
+		this.id = id;
 		this.nome = nome;
-		this.quantidadeEstoque = quantidadeEstoque;
+		this.quantidadeDeEstoque = quantidadeDeEstoque;
 		this.preco = preco;
-	}
-	
-	
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(long ultimoId) {
-		this.id = ultimoId;
 	}
 
 	public String getNome() {
-		return nome;
-	}
+        return nome;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public int getQuantidadeEstoque() {
-		return quantidadeEstoque;
-	}
+    public int getQuantidadeDeEstoque() {
+        return quantidadeDeEstoque;
+    }
 
-	public void setQuantidadeEstoque(int quantidadeEstoque) {
-		this.quantidadeEstoque = quantidadeEstoque;
-	}
+    public void setQuantidadeDeEstoque(int quantidadeDeEstoque) {
+        this.quantidadeDeEstoque = quantidadeDeEstoque;
+    }
 
-	public double getPreco() {
-		return preco;
-	}
+    public double getPreco() {
+        return preco;
+    }
 
-	public void setPreco(double preco) {
-		this.preco = preco;
-	}
-	private Ingrediente findIngredienteById(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public String toString() {
-	    return "Ingrediente{" +
-	            "id=" + id +
-	            ", nome='" + nome + '\'' +
-	            ", quantidadeEstoque=" + quantidadeEstoque +
-	            ", preco=" + preco +
-	            '}';
-	}
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

@@ -1,79 +1,54 @@
 package br.edu.iff.bsi.Pizzaria.controller.apirest;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.edu.iff.bsi.Pizzaria.entities.Pedido;
-import br.edu.iff.bsi.Pizzaria.repository.PizzaRepository;
-import br.edu.iff.bsi.Pizzaria.service.ClienteService;
-import br.edu.iff.bsi.Pizzaria.service.FuncionarioService;
 import br.edu.iff.bsi.Pizzaria.service.PedidoService;
-import br.edu.iff.bsi.Pizzaria.service.PizzaService;
+import io.swagger.v3.oas.annotations.Operation;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/pedido")
+@RequestMapping("/api/v1/pedidos")
 public class PedidoRestController {
 
-	@Autowired
-	private PedidoService pedidoService;
+    @Autowired
+    private PedidoService pedidoService;
 
-	@Autowired
-	private PizzaService pizzaService;
+    @GetMapping
+    @ResponseBody
+	@Operation(summary = "Listar todos os pedidos")
+    public List<Pedido> getAllPedidos() {
+        return pedidoService.getAllPedidos();
+    }
 
-	@Autowired
-	private ClienteService clienteService;
+    @GetMapping("/{id}")
+    @ResponseBody
+	@Operation(summary = "Retornar um pedido em especifico")
+    public Pedido getPedidoById(@PathVariable Long id) {
+        return pedidoService.getPedidoById(id);
+    }
 
-	@Autowired
-	private FuncionarioService funcionarioService;
+    @PostMapping
+    @ResponseBody
+	@Operation(summary = "Adiconar um pedido em especifíco")
+    
+    public Pedido createPedido(@RequestBody Pedido pedido) {
+        return pedidoService.createPedido(pedido);
+    }
 
-	@Autowired
-	private PizzaRepository pizzaRepository;
+    @PutMapping("/{id}")
+    @ResponseBody
+	@Operation(summary = "Atualizar um pedido em especifíco")
+    public Pedido updatePedido(@PathVariable Long id, @RequestBody Pedido pedido) {
+        return pedidoService.updatePedido(id, pedido);
+    }
 
-	@PostMapping("")
-	public ResponseEntity<Pedido> addPedido(@RequestBody Pedido pedido) {
-		pedidoService.salvarPedido(pedido);
-		return ResponseEntity.status(HttpStatus.CREATED).body(pedido);
-	}
-
-	@PutMapping("/{id}")
-	public ResponseEntity<Pedido> atualizarPedido(
-			@PathVariable Long id,
-			@RequestBody Pedido pedidoAtualizado
-	) {
-		Pedido pedido = pedidoService.realizarAtualizacaoPedido(id, pedidoAtualizado);
-		return ResponseEntity.ok(pedido);
-	}
-
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deletarPedido(@PathVariable Long id) {
-		pedidoService.removerPedido(id);
-		return ResponseEntity.noContent().build();
-	}
-
-	@GetMapping("")
-	public ResponseEntity<List<Pedido>> listarPedidos() {
-		List<Pedido> pedidos = pedidoService.listarPedidos();
-		return ResponseEntity.ok(pedidos);
-	}
-
-	@GetMapping("/{id}")
-	public ResponseEntity<Pedido> buscarPedidoPorId(@PathVariable Long id) {
-		try {
-			Pedido pedido = pedidoService.buscarPedidoPorId(id);
-			return ResponseEntity.ok(pedido);
-		} catch (RuntimeException e) {
-			return ResponseEntity.notFound().build();
-		}
-	}
+    @DeleteMapping("/{id}")
+    @ResponseBody
+	@Operation(summary = "Remover uma pedido em especifíco")
+    public void deletePedido(@PathVariable Long id) {
+        pedidoService.deletePedido(id);
+    }
 }

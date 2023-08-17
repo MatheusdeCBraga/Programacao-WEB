@@ -4,49 +4,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.edu.iff.bsi.Pizzaria.entities.Pedido;
-import br.edu.iff.bsi.Pizzaria.entities.Pizza;
 import br.edu.iff.bsi.Pizzaria.repository.PedidoRepository;
-import br.edu.iff.bsi.Pizzaria.repository.PizzaRepository;
 
 import java.util.List;
-import java.util.NoSuchElementException; 
 
 @Service
 public class PedidoService {
 
     @Autowired
     private PedidoRepository pedidoRepository;
-    
-    @Autowired
-    private PizzaRepository pizzaRepository;
 
-
-    public void salvarPedido(Pedido pedido) {
-        pedidoRepository.save(pedido);
-    }
-
-    public List<Pedido> listarPedidos() {
+    public List<Pedido> getAllPedidos() {
         return pedidoRepository.findAll();
     }
 
-    public Pedido buscarPedidoPorId(Long id) {
-        return pedidoRepository.findById(id).orElseThrow(NoSuchElementException::new);
+    public Pedido getPedidoById(Long id) {
+        return pedidoRepository.findById(id).orElse(null);
     }
 
-    public void atualizarPedido(Pedido pedido) {
-        pedidoRepository.save(pedido);
+    public Pedido createPedido(Pedido pedido) {
+        return pedidoRepository.save(pedido);
     }
 
-    public void removerPedido(Long id) {
+    public Pedido updatePedido(Long id, Pedido pedido) {
+        if (pedidoRepository.existsById(id)) {
+            pedido.setId(id);
+            return pedidoRepository.save(pedido);
+        }
+        return null;
+    }
+
+    public void deletePedido(Long id) {
         pedidoRepository.deleteById(id);
     }
-    
-    public List<Pizza> listarSaboresPizza() {
-        return pizzaRepository.findAll();
-    }
-
-	public Pedido realizarAtualizacaoPedido(Long id, Pedido pedidoAtualizado) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
