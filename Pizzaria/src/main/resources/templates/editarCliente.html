@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Editar Cliente</title>
+</head>
+
+<body>
+	<h1>Editar Cliente</h1>
+
+	<form th:object="${cliente}" th:action="@{/cliente/atualizar}" method="post">
+		<input type="hidden" th:field="*{id}" />
+
+		<p>Nome: <input type="text" id="nome" name="nome" th:field="*{nome}" /></p>
+		<p>Sobrenome: <input type="text" id="sobrenome" name="sobrenome" th:field="*{sobrenome}" /></p>
+		<p>Telefone: <input type="text" id="telefone" name="telefone" th:field="*{telefone}" /></p>
+		<p>Bairro: <input type="text" id="bairro" name="bairro" th:field="*{bairro}" /></p>
+		<p>Endereço: <input type="text" id="endereco" name="endereco" th:field="*{endereco}" /></p>
+		<p>Senha: <input type="password" id="password" name="password" th:field="*{password}" required /></p>
+		<button type="submit">Atualizar Cliente</button>
+
+	</form>
+
+	<a href="/cliente/listar">Voltar para a Lista de Clientes</a>
+</body>
+
+</html>

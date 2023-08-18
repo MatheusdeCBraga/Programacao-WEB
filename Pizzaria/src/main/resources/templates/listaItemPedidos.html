@@ -1,0 +1,27 @@
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Quantidade de Itens</th>
+            <th>Sabor da Pizza</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        <th:block th:each="itempedido : ${itempedidos}">
+            <tr>
+                <td th:text="${itempedido[0]}"></td>
+                <td th:text="${itempedido[1]}"></td>
+                <td th:text="${itempedido[2]}"></td>
+                <td>
+                    <a th:href="@{/itempedido/editar(id=${itempedido[0]})}">Editar</a>
+                    <a th:href="@{/itempedido/excluir(id=${itempedido[0]})}">Excluir</a>
+                </td>
+            </tr>
+        </th:block>
+    </tbody>
+</table>
+
+
+<a href="/pizza/cadastro">Cadastrar Nova Pizza</a>
+

@@ -1,53 +1,52 @@
 package br.edu.iff.bsi.Pizzaria.entities;
 
-import java.io.Serializable;
-import java.util.Calendar;
-import java.util.List;
-
-
-
+import jakarta.persistence.Id;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.OneToOne;
+
+import java.io.Serializable;
+
+import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
+
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Pedido implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-    @Column(nullable = false)
-    private int numeroPedido;
+	@Column(nullable = false)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date dataDoPedido;
 
-    @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Calendar dataDoPedido;
+	@Column(nullable = false, unique = true)
+	private String numeroPedido;
 
-    @OneToMany
-    @JoinColumn(name = "id_pedido")
-    private List<ItemPedido> itensPedido;
+	@ManyToOne
+	@JoinColumn(name = "cliente_id")
+	private Cliente cliente;
 
-    @ManyToOne
-    private Cliente cliente;
-	
-	public Pedido(Long id, int numeroPedido, Calendar dataDoPedido, List<ItemPedido> itensPedido, Cliente cliente) {
-		super();
-		this.id = id;
-		this.numeroPedido = numeroPedido;
-		this.dataDoPedido = dataDoPedido;
-		this.itensPedido = itensPedido;
-		this.cliente = cliente;
-	}
+	@ManyToOne
+	@JoinColumn(name = "funcionario_id")
+	private Funcionario funcionario;
+
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<ItemPedido> itensPedido = new ArrayList<>();
+
+	@OneToOne(mappedBy = "pedido")
+	private Entrega entrega;
 
 	public Long getId() {
 		return id;
@@ -57,29 +56,47 @@ public class Pedido implements Serializable {
 		this.id = id;
 	}
 
-	public int getNumeroPedido() {
+	public String getNumeroPedido() {
 		return numeroPedido;
 	}
 
-	public void setNumeroPedido(int numeroPedido) {
+	public void setNumeroPedido(String numeroPedido) {
 		this.numeroPedido = numeroPedido;
 	}
 
-	public Calendar getDataDoPedido() {
+	public Date getDataDoPedido() {
 		return dataDoPedido;
 	}
 
-	public void setDataDoPedido(Calendar dataDoPedido) {
+	public void setDataDoPedido(Date dataDoPedido) {
 		this.dataDoPedido = dataDoPedido;
 	}
 
-	public List<ItemPedido> getItensPedido() {
-		return itensPedido;
-	}
+	// public List<ItemPedido> getItensPedido() {
+	// return itensPedido;
+	// }
 
-	public void setItensPedido(List<ItemPedido> itensPedido) {
-		this.itensPedido = itensPedido;
-	}
+	// public void setItensPedido(List<ItemPedido> itensPedido) {
+	// this.itensPedido = itensPedido;
+	// }
+	
+	 public List<ItemPedido> getItensPedido() {
+	        return itensPedido;
+	    }
+
+	    public void setItensPedido(List<ItemPedido> itensPedido) {
+	        this.itensPedido = itensPedido;
+	    }
+
+	    public void adicionarItemPedido(ItemPedido itemPedido) {
+	        itemPedido.setPedido(this); // Associe o pedido ao itemPedido
+	        itensPedido.add(itemPedido);
+	    }
+
+	    public void removerItemPedido(ItemPedido itemPedido) {
+	        itensPedido.remove(itemPedido);
+	        itemPedido.setPedido(null); // Remova a associação do itemPedido com o pedido
+	    }
 
 	public Cliente getCliente() {
 		return cliente;
@@ -88,8 +105,13 @@ public class Pedido implements Serializable {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
-	
-	
-	
+
+	public Funcionario getFuncionario() {
+		return funcionario;
+	}
+
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
+	}
+
 }

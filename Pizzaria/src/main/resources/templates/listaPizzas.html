@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Lista de Pizzas</title>
+</head>
+
+<body>
+	<h1>Lista de Pizzas</h1>
+
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Sabor</th>
+				<th>Preço</th>
+				<th>Ingredientes</th>
+				<th>Ações</th>
+			</tr>
+		</thead>
+		<tbody>
+		<th:block th:each="pizza : ${pizzas}">
+			<tr>
+				<td th:text="${pizza.id}"></td>
+				<td th:text="${pizza.sabor}"></td>
+				<td th:text="${pizza.preco}"></td>
+				<td>
+					<ul>
+						 <li th:each="ingrediente : ${pizza.ingredientes}" th:text="${ingrediente.nome}"></li>
+					</ul>
+				</td>
+				<td>
+					<a th:href="@{/pizza/editar(id=${pizza.id})}">Editar</a>
+					<a th:href="@{/pizza/excluir(id=${pizza.id})}">Excluir</a>
+				</td>
+			</tr>
+		</th:block>
+		</tbody>
+	</table>
+
+	<a href="/pizza/cadastro">Cadastrar Nova Pizza</a>
+</body>
+
+</html>

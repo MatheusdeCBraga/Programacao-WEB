@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Editar Funcionário</title>
+</head>
+
+<body>
+	<h1>Editar Funcionário</h1>
+	<form th:action="@{/funcionario/atualizar}" th:object="${funcionario}" method="post">
+		<input type="hidden" th:field="*{id}" />
+		<p>ID: <input type="text" th:field="*{id}" readonly /></p> <!-- O ID não pode ser editado -->
+		<p>Nome: <input type="text" th:field="*{nome}" /></p>
+		<p>Sobrenome: <input type="text" id="sobrenome" th:field="*{sobrenome}" /></p>
+		<p>Cargo: <input type="text" th:field="*{cargo}" /></p>
+		<p>Salário: <input type="text" th:field="*{salario}" /></p>
+		<p>Email: <input type="email" th:field="*{email}" /></p>
+		<p>Senha: ********</p> <!-- Ocultar a senha do funcionário -->
+		<!-- Você pode adicionar um link para alterar a senha do funcionário -->
+		<!-- Lembre-se de criar uma página separada para alterar a senha -->
+		(<a href="#">Alterar Senha</a>)
+
+		<!-- Campo de senha de confirmação -->
+		<p>Senha de Confirmação: <input type="password" id="password" th:field="*{password}" required /></p>
+
+		<p><input type="submit" /> |
+			(<a href="#">Cancelar</a>) |
+			(<a href="#">Excluir Conta</a>) </p>
+	</form>
+
+	<a href="/funcionario/listar">Voltar para a Lista de Funcionários</a>
+</body>
+
+</html>

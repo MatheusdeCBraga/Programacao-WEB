@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Ingredientes</title>
+</head>
+<body>
+    <h1>Lista de Ingredientes</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Quantidade de Estoque</th>
+                <th>Preço</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <th:block th:each="ingrediente : ${ingredientes}">
+                <tr>
+                    <td th:text="${ingrediente.id}"></td>
+                    <td th:text="${ingrediente.nome}"></td>
+                    <td th:text="${ingrediente.quantidadeEstoque}"></td>
+                    <td th:text="${ingrediente.preco}"></td>
+                    <td>
+                        <a th:href="@{/ingrediente/editar(id=${ingrediente.id})}">Editar</a>
+                        <a th:href="@{/ingrediente/excluir(id=${ingrediente.id})}">Excluir</a>
+                    </td>
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
+    
+    <a href="/ingrediente/cadastro">Cadastrar Novo Ingrediente</a>
+</body>
+</html>

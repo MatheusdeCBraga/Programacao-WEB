@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Clientes</title>
+</head>
+<body>
+    <h1>Lista de Clientes</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Sobrenome</th>
+            <th>Endereço</th>
+            <th>Bairro</th>
+            <th>Telefone</th>
+            <th>Senha</th>
+            <th>Ações</th>
+        </tr>
+
+        <!-- Aqui você pode iterar sobre a lista de clientes e exibir cada um -->
+        <!-- Lembre-se de ocultar a senha do cliente -->
+        <!-- Você também pode adicionar links para editar e excluir o cliente -->
+        <tr th:each="cliente : ${clientes}">
+            <td th:text="${cliente.id}"></td>
+            <td th:text="${cliente.nome}"></td> 
+            <td th:text="${cliente.sobrenome}"></td> 
+            <td th:text="${cliente.endereco}"></td> 
+            <td th:text="${cliente.bairro}"></td> 
+            <td th:text="${cliente.telefone}"></td> 
+            <td>******</td> <!-- Ocultar a senha do cliente -->
+            <td> 
+                <a th:href="@{/cliente/editar(id=${cliente.id})}">Editar</a> | 
+                <a th:href="@{/cliente/excluir(id=${cliente.id})}">Excluir</a> 
+            </td> 
+        </tr>
+
+    </table> 
+    <a href="/cliente/cadastro">Cadastrar novo Cliente</a>
+</body>
+</html>
+

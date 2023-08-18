@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Ingredientes</title>
+</head>
+<body>
+    <h1>Lista de Ingredientes</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Quantidade em Estoque</th>
+            <th>Preço</th>
+        </tr>
+        <!-- Aqui vamos preencher a tabela com os dados dos ingredientes -->
+        <!-- Vamos usar JavaScript para fazer a requisição GET ao controlador -->
+    </table>
+
+    <script>
+        // Função para fazer a requisição GET ao controlador para obter os ingredientes
+        function listarIngredientes() {
+            fetch('/ingredientes/listar')
+                .then(response => response.json())
+                .then(ingredientes => {
+                    const table = document.querySelector('table');
+
+                    // Para cada ingrediente retornado, adicionamos uma linha à tabela
+                    ingredientes.forEach(ingrediente => {
+                        const row = table.insertRow();
+                        row.innerHTML = `
+                            <td>${ingrediente.id}</td>
+                            <td>${ingrediente.nome}</td>
+                            <td>${ingrediente.quantidadeEstoque}</td>
+                            <td>${ingrediente.preco}</td>
+                        `;
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao listar ingredientes:', error);
+                });
+        }
+
+        // Chamamos a função ao carregar a página para listar os ingredientes
+        listarIngredientes();
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Cadastro de Item Pedido</title>
+</head>
+
+<body>
+	<h1>Cadastro de Item Pedido</h1>
+	<form action="/itempedido/saveItem" method="POST" th:object="${itempedido}">
+		<label for="quantidade_de_itens">Quantidade de Itens:</label>
+		<input type="number" id="quantidade_de_itens" name="quantidade_de_itens"><br><br>
+
+
+		<fieldset>
+			<legend>Pizzas:</legend>
+			<th:block th:each="pizza : ${pizzas}">
+				<input type="radio" th:id="${pizza.id}" name="selectedPizza" th:value="${pizza.id}" />
+				<label th:text="${pizza.sabor}" th:for="${pizza.id}"></label><br />
+			</th:block>
+		</fieldset>
+
+		<button type="submit">Cadastrar ItemPedido</button>
+	</form>
+</body>
+
+</html>

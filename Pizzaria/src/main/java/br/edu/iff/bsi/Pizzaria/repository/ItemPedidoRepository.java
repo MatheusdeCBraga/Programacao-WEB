@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import br.edu.iff.bsi.Pizzaria.entities.*;
 
 public interface ItemPedidoRepository extends JpaRepository<ItemPedido, Long>{
+	List<ItemPedido> findByIdIn(List<Long> ids);
 
-	@Query(value = "SELECT * FROM ITEMPEDIDO", nativeQuery = true)
-	List<ItemPedido> selectAllItemPedido();
 }
