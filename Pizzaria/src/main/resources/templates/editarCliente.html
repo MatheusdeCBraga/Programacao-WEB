@@ -5,25 +5,82 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Editar Cliente</title>
+	<link rel="stylesheet" href="/src/main/resources/static.css/bootstrap.min.css">
+	<link rel="stylesheet" href="/src/main/resources/static.css/dashboard.css">
+	<script src="/src/main/resources/static.js/bootstrap.bundle.min.js"></script>
+	<script src="/src/main/resources/static.js/dashboard.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<style>
+		body {
+			background-color: #f0f0f0;
+			padding: 0;
+			margin: 0;
+			font-family: Arial, sans-serif;
+		}
+
+		header,
+		main,
+		footer {
+			padding: 20px;
+		}
+
+		header{
+			background-color: #FFA500;
+			color: #fff;
+			text-align: center;
+		}
+
+		main {
+			background-color: #fff;
+			border-radius: 8px;
+			box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+			padding: 20px;
+		}
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
 </head>
-
 <body>
-	<h1>Editar Cliente</h1>
-
-	<form th:object="${cliente}" th:action="@{/cliente/atualizar}" method="post">
-		<input type="hidden" th:field="*{id}" />
-
-		<p>Nome: <input type="text" id="nome" name="nome" th:field="*{nome}" /></p>
-		<p>Sobrenome: <input type="text" id="sobrenome" name="sobrenome" th:field="*{sobrenome}" /></p>
-		<p>Telefone: <input type="text" id="telefone" name="telefone" th:field="*{telefone}" /></p>
-		<p>Bairro: <input type="text" id="bairro" name="bairro" th:field="*{bairro}" /></p>
-		<p>Endereço: <input type="text" id="endereco" name="endereco" th:field="*{endereco}" /></p>
-		<p>Senha: <input type="password" id="password" name="password" th:field="*{password}" required /></p>
-		<button type="submit">Atualizar Cliente</button>
-
-	</form>
-
-	<a href="/cliente/listar">Voltar para a Lista de Clientes</a>
+    <h1>Editar Cliente</h1>
+    <form action="/cliente/atualizar" method="post">
+        <input type="hidden" id="id" name="id" th:value="${cliente.id}" />
+        <fieldset>
+            <label>Nome: </label><br>
+            <input type="text" id="nome" name="nome" th:value="${cliente.nome}" /><br>
+            <label>Sobrenome: </label><br>
+            <input type="text" id="sobrenome" name="sobrenome" th:value="${cliente.sobrenome}" /><br>
+            <label>Telefone: </label><br>
+            <input type="text" id="telefone" name="telefone" th:value="${cliente.telefone}" /><br>
+            <label>Senha:</label><br>
+            <input type="password" id="senha" name="senha" th:value="${cliente.senha}" /><br>
+            <label>Endereço:</label><br>
+            <input type="text" id="endereco" name="endereco" th:value="${cliente.endereco}" /><br>
+            <label>Bairro:</label><br>
+            <input type="text" id="bairro" name="bairro" th:value="${cliente.bairro}" /><br><br>
+            <button type="submit" value="editar">Editar</button>
+        </fieldset>
+    </form>
+    <button onclick="location.href='/cliente/listar'">Listar Clientes</button>
 </body>
-
 </html>

@@ -37,4 +37,29 @@ public class ItemPedidoService {
     public void deleteItemPedido(Long id) {
         itemPedidoRepository.deleteById(id);
     }
+
+	public void salvarItemPedido(ItemPedido itemPedido) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public List<ItemPedido> listarItemPedidosComPizzas() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ItemPedido buscarItemPorId(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void atualizarItem(ItemPedido item) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void removerItem(Long id) {
+		// TODO Auto-generated method stub
+		
+	}
 }

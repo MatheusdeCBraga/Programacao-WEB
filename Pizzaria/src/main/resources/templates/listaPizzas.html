@@ -2,45 +2,100 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Lista de Pizzas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Pizzas</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            padding: 0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header,
+        main,
+        footer {
+            padding: 20px;
+        }
+
+        header{
+            background-color: #FFA500;
+            color: #fff;
+            text-align: center;
+        }
+
+        main {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
 </head>
 
 <body>
-	<h1>Lista de Pizzas</h1>
+    <header>
+        <h1>Lista de Pizzas</h1>
+    </header>
 
-	<table>
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Sabor</th>
-				<th>Preço</th>
-				<th>Ingredientes</th>
-				<th>Ações</th>
-			</tr>
-		</thead>
-		<tbody>
-		<th:block th:each="pizza : ${pizzas}">
-			<tr>
-				<td th:text="${pizza.id}"></td>
-				<td th:text="${pizza.sabor}"></td>
-				<td th:text="${pizza.preco}"></td>
-				<td>
-					<ul>
-						 <li th:each="ingrediente : ${pizza.ingredientes}" th:text="${ingrediente.nome}"></li>
-					</ul>
-				</td>
-				<td>
-					<a th:href="@{/pizza/editar(id=${pizza.id})}">Editar</a>
-					<a th:href="@{/pizza/excluir(id=${pizza.id})}">Excluir</a>
-				</td>
-			</tr>
-		</th:block>
-		</tbody>
-	</table>
+    <main>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Sabor</th>
+                <th>Preço</th>
+                <th>Tamanho da Pizza</th> <!-- Nova coluna para o tamanho da pizza -->
+                <th>Ingredientes</th>
+                <th>Ações</th>
+            </tr>
 
-	<a href="/pizza/cadastro">Cadastrar Nova Pizza</a>
+            <tr th:each="pizza : ${pizzas}">
+                <td th:text="${pizza.id}"></td>
+                <td th:text="${pizza.sabor}"></td>
+                <td th:text="${pizza.preco}"></td>
+                <td th:text="${pizza.tamanhoDaPizza}"></td> <!-- Nova célula para o tamanho da pizza -->
+                <td>
+                    <ul th:each="ingrediente : ${pizza.ingredientes}">
+                        <li th:text="${ingrediente.nome}"></li>
+                    </ul>
+                </td>
+
+                <td>
+
+                    <a th:href="@{/pizza/editar(id=${pizza.id})}">Editar</a> |
+                    <a th:href="@{/pizza/excluir(id=${pizza.id})}">Excluir</a>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+        <div><a href="/pizza/cadastro">Voltar para o Cadastro de Pizzas</a></div>
+        <div><a href="/">Voltar para a página principal</a></div>
+
+    </main>
+
+    <footer></footer>
+
 </body>
 
 </html>

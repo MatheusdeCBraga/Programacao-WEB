@@ -22,32 +22,35 @@ public class FuncionarioRestController {
     public List<Funcionario> getAllFuncionarios() {
         return funcionarioService.getAllFuncionarios();
     }
+//
+//    @GetMapping("/{id}")
+//    @ResponseBody
+//	@Operation(summary = "Retornar Funcionario especifico")
+//    public Funcionario getFuncionarioById(@PathVariable Long id) {
+//        return funcionarioService.getFuncionarioById(id);
+//    }
 
-    @GetMapping("/{id}")
-    @ResponseBody
-	@Operation(summary = "Retornar Funcionario especifico")
-    public Funcionario getFuncionarioById(@PathVariable Long id) {
-        return funcionarioService.getFuncionarioById(id);
-    }
-
-    @PostMapping
-    @ResponseBody
-	@Operation(summary = "Adicionar um novo funcioanrio")
-    public Funcionario createFuncionario(@RequestBody Funcionario funcionario) {
-        return funcionarioService.createFuncionario(funcionario);
-    }
-
-    @PutMapping("/{id}")
-    @ResponseBody
-	@Operation(summary = "Atualizar dados de um funcionario em especifico")
-    public Funcionario updateFuncionario(@PathVariable Long id, @RequestBody Funcionario funcionario) {
-        return funcionarioService.updateFuncionario(id, funcionario);
-    }
-
-    @DeleteMapping("/{id}")
-    @ResponseBody
-	@Operation(summary = "Remover um funcioanrio")
-    public void deleteFuncionario(@PathVariable Long id) {
-        funcionarioService.deleteFuncionario(id);
-    }
+	/*
+	 * @PostMapping
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @Operation(summary = "Adicionar um novo funcioanrio") public Funcionario
+	 * createFuncionario(@RequestBody Funcionario funcionario) { return
+	 * funcionarioService.createFuncionario(funcionario); }
+	 */
+//
+//    @PutMapping("/{id}")
+//    @ResponseBody
+////	@Operation(summary = "Atualizar dados de um funcionario em especifico")
+////    public Funcionario updateFuncionario(@PathVariable Long id, @RequestBody Funcionario funcionario) {
+////        return funcionarioService.updateFuncionario(id, funcionario);
+////    }
+//
+//    @DeleteMapping("/{id}")
+//    @ResponseBody
+//	@Operation(summary = "Remover um funcioanrio")
+//    public void deleteFuncionario(@PathVariable Long id) {
+//        funcionarioService.deleteFuncionario(id);
+//    }
 }

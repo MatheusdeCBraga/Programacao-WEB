@@ -68,7 +68,7 @@
 //			Object[] formattedItem = new Object[3]; 
 //
 //			formattedItem[0] = itemPedido.getId();
-//			formattedItem[1] = itemPedido.getQuantidade_de_itens();
+//			formattedItem[1] = itemPedido.getQuantidadeDeItens();
 //
 //			Pizza pizza = itemPedido.getPizza();
 //			if (pizza != null) {

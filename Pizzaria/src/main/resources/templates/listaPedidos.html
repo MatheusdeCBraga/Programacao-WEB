@@ -1,61 +1,100 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 
 <head>
-    <!-- Seus metadados e links de estilo aqui -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Pedidos</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            padding: 0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header,
+        main,
+        footer {
+            padding: 20px;
+        }
+
+        header{
+            background-color: #FFA500;
+            color: #fff;
+            text-align: center;
+        }
+
+        main {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
 </head>
 
 <body>
-    <h2>Listagem de Pedidos</h2>
-    <table>
-        <thead>
+    <header>
+        <h1>Lista de Pedidos</h1>
+    </header>
+
+    <main>
+        <table>
             <tr>
-                <th>ID</th>
-                <th>Data do Pedido</th>
+                <th>Forma de Pagamento</th>
                 <th>Cliente</th>
                 <th>Funcionário</th>
-                <th>Itens de Pedido</th> <!-- Adicione esta coluna -->
-                <th>Quantidade</th> <!-- Adicione esta coluna -->
-                <th>Sabor</th> <!-- Adicione esta coluna -->
-                <th>Tamanho</th> <!-- Adicione esta coluna -->
-                <!-- Adicione mais colunas para outros atributos, se necessário -->
+                <th>Pizzas</th>
+                <th>Ações</th>
             </tr>
-        </thead>
-        <tbody>
+
             <tr th:each="pedido : ${pedidos}">
-                <td th:text="${pedido.id}"></td>
-                <td th:text="${#dates.format(pedido.dataDoPedido, 'dd/MM/yyyy')}"></td>
+                <td th:text="${pedido.formaDePagamento}"></td>
                 <td th:text="${pedido.cliente.nome}"></td>
-                <td th:if="${pedido.funcionario != null}" th:text="${pedido.funcionario.nome}"></td>
-                <td th:unless="${pedido.funcionario != null}">n/a</td>
+                <td th:text="${pedido.funcionario.nome}"></td>
+
                 <td>
-                    <ul>
-                        <li th:each="item : ${pedido.itensPedido}">
-                            (Quantidade: <span th:text="${item.quantidade_de_itens}"></span>)
-                        </li>
+                    <ul th:each="pizza : ${pedido.pizza}">
+                        <li th:text="${pizza.sabor}"></li>
                     </ul>
                 </td>
+
                 <td>
-                    <ul>
-                        <li th:each="item : ${pedido.itensPedido}">
-                            (Sabor: <span th:text="${item.pizza.sabor}"></span>)
-                        </li>
-                    </ul>
-                </td>
-                <td>
-                    <ul>
-                        <li th:each="item : ${pedido.itensPedido}">
-                            (Tamanho: <span th:text="${item.pizza.tamanho}"></span>)
-                        </li>
-                    </ul>
+
+                    <a th:href="@{/pedido/editar(id=${pedido.id})}">Editar</a> |
+                    <a th:href="@{/pedido/excluir(id=${pedido.id})}">Excluir</a>
+
                 </td>
 
             </tr>
-        </tbody>
-    </table>
 
-    <!-- Seus scripts ou outros elementos HTML aqui -->
+        </table>
+
+        <div><a href="/pedido/cadastro">Voltar para o Cadastro de Pedidos</a></div>
+        <div><a href="/">Voltar para a página principal</a></div>
+
+    </main>
+
+    <footer></footer>
+
 </body>
 
 </html>
-

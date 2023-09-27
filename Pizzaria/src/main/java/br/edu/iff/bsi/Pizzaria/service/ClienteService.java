@@ -1,40 +1,55 @@
 package br.edu.iff.bsi.Pizzaria.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.edu.iff.bsi.Pizzaria.entities.Cliente;
 import br.edu.iff.bsi.Pizzaria.repository.ClienteRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatus;
+import java.util.NoSuchElementException;
+
+
 
 import java.util.List;
 
 @Service
 public class ClienteService {
 
-    @Autowired
-    private ClienteRepository clienteRepository;
+	    @Autowired
+	    private ClienteRepository clienteRepository;
 
-    public List<Cliente> getAllClientes() {
-        return clienteRepository.findAll();
-    }
+	    public void salvarCliente(Cliente cliente) {
+	        clienteRepository.save(cliente);
+	    }
 
-    public Cliente getClienteById(Long id) {
-        return clienteRepository.findById(id).orElse(null);
-    }
+	    public List<Cliente> getAllClientes() {
+	        return clienteRepository.findAll();
+	    }
 
-    public Cliente createCliente(Cliente cliente) {
-        return clienteRepository.save(cliente);
-    }
+	    public Cliente getClienteById(Long id) {
+	        return clienteRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Cliente não encontrado"));
+	    }
 
-    public Cliente updateCliente(Long id, Cliente cliente) {
-        if (clienteRepository.existsById(id)) {
-            cliente.setId(id);
-            return clienteRepository.save(cliente);
-        }
-        return null;
-    }
 
-    public void deleteCliente(Long id) {
-        clienteRepository.deleteById(id);
-    }
-}
+
+	    public void updateCliente(Long id, Cliente clienteAtualizado) {
+	        Cliente cliente = getClienteById(id);
+	        cliente.setNome(clienteAtualizado.getNome());
+	        cliente.setSobrenome(clienteAtualizado.getSobrenome());
+	        cliente.setSenha(clienteAtualizado.getSenha());
+	        cliente.setBairro(clienteAtualizado.getBairro());
+	        cliente.setEndereco(clienteAtualizado.getEndereco());
+	        cliente.setTelefone(clienteAtualizado.getTelefone());
+	        clienteRepository.save(cliente);
+	    }
+
+	    public void deleteCliente(Long id) {
+	        clienteRepository.deleteById(id);
+	    }
+	}
+
+
+	
+

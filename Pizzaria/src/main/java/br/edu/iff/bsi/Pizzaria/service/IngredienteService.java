@@ -1,6 +1,7 @@
 package br.edu.iff.bsi.Pizzaria.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.edu.iff.bsi.Pizzaria.entities.Ingrediente;
@@ -14,27 +15,27 @@ public class IngredienteService {
     @Autowired
     private IngredienteRepository ingredienteRepository;
 
-    public List<Ingrediente> getAllIngredientes() {
+    public void salvarIngrediente(Ingrediente ingrediente) {
+        ingredienteRepository.save(ingrediente);
+    }
+
+    public List<Ingrediente> listarIngredientes() {
         return ingredienteRepository.findAll();
     }
 
-    public Ingrediente getIngredienteById(Long id) {
-        return ingredienteRepository.findById(id).orElse(null);
+    public Ingrediente buscarIngredientePorId(Long id) throws NotFoundException {
+        return ingredienteRepository.findById(id).orElseThrow(() -> new NotFoundException());
     }
 
-    public Ingrediente createIngrediente(Ingrediente ingrediente) {
-        return ingredienteRepository.save(ingrediente);
+    public void atualizarIngrediente(Ingrediente ingrediente) {
+        ingredienteRepository.save(ingrediente);
     }
 
-    public Ingrediente updateIngrediente(Long id, Ingrediente ingrediente) {
-        if (ingredienteRepository.existsById(id)) {
-            ingrediente.setId(id);
-            return ingredienteRepository.save(ingrediente);
-        }
-        return null;
-    }
-
-    public void deleteIngrediente(Long id) {
+    public void removerIngrediente(Long id) {
         ingredienteRepository.deleteById(id);
     }
+    public List<Ingrediente> buscarIngredientesPorIds(List<Long> ids) {
+        return ingredienteRepository.findAllById(ids);
+    }
+
 }

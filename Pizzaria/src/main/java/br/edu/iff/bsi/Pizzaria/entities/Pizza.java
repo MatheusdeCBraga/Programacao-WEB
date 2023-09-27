@@ -38,16 +38,14 @@ public class Pizza implements Serializable {
 
 	@OneToMany(mappedBy = "pizza")
 	private List<ItemPedido> itemPedidos;
-	
-	
 
 	@ManyToMany
-	@JoinTable(name = "pizza_ingredientes", joinColumns = @JoinColumn(name = "pizza_id"), inverseJoinColumns = @JoinColumn(name = "ingrediente_id"))
+	@JoinTable(name = "pizza_ingredientes", joinColumns = @JoinColumn(name = "pizza_id"), 
+	inverseJoinColumns = @JoinColumn(name = "ingrediente_id"))
 	private List<Ingrediente> ingredientes;
 
-	@ManyToOne
-	@JoinColumn(name = "pedido_id")
-	private Pedido pedido;
+//	@ManyToMany(mappedBy = "pizza")
+//	private List<Pedido> pedido;;
 
 	@Column(nullable = false)
 	private String tamanhoDaPizza;
@@ -57,17 +55,15 @@ public class Pizza implements Serializable {
 	}
 
 	public Pizza(Long id, String sabor, double preco, List<ItemPedido> itemPedidos, List<Ingrediente> ingredientes,
-			Pedido pedido, String tamanhoDaPizza) {
+			String tamanhoDaPizza) {
 		super();
 		this.id = id;
 		this.sabor = sabor;
 		this.preco = preco;
 		this.itemPedidos = itemPedidos;
 		this.ingredientes = ingredientes;
-		this.pedido = pedido;
 		this.tamanhoDaPizza = tamanhoDaPizza;
 	}
-
 
 	public String getSabor() {
 		return sabor;
@@ -108,4 +104,5 @@ public class Pizza implements Serializable {
 	public void setTamanhoDaPizza(String tamanhoDaPizza) {
 		this.tamanhoDaPizza = tamanhoDaPizza;
 	}
+
 }

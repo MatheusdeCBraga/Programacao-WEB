@@ -1,34 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-	<title>Editar Funcionário</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Editar Funcionários</title>
+	<link rel="stylesheet" href="/src/main/resources/static.css/bootstrap.min.css">
+	<link rel="stylesheet" href="/src/main/resources/static.css/dashboard.css">
+	<script src="/src/main/resources/static.js/bootstrap.bundle.min.js"></script>
+	<script src="/src/main/resources/static.js/dashboard.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<style>
+		body {
+			background-color: #f0f0f0;
+			padding: 0;
+			margin: 0;
+			font-family: Arial, sans-serif;
+		}
+
+		header,
+		main,
+		footer {
+			padding: 20px;
+		}
+
+		header{
+			background-color: #FFA500;
+			color: #fff;
+			text-align: center;
+		}
+
+		main {
+			background-color: #fff;
+			border-radius: 8px;
+			box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+			padding: 20px;
+		}
+
+		table,
+		th,
+		td {
+			border: 1px solid black;
+			text-align: center;
+			margin-bottom: 20px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			text-align: center;
+		}
+		
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
 </head>
-
 <body>
-	<h1>Editar Funcionário</h1>
-	<form th:action="@{/funcionario/atualizar}" th:object="${funcionario}" method="post">
-		<input type="hidden" th:field="*{id}" />
-		<p>ID: <input type="text" th:field="*{id}" readonly /></p> <!-- O ID não pode ser editado -->
-		<p>Nome: <input type="text" th:field="*{nome}" /></p>
-		<p>Sobrenome: <input type="text" id="sobrenome" th:field="*{sobrenome}" /></p>
-		<p>Cargo: <input type="text" th:field="*{cargo}" /></p>
-		<p>Salário: <input type="text" th:field="*{salario}" /></p>
-		<p>Email: <input type="email" th:field="*{email}" /></p>
-		<p>Senha: ********</p> <!-- Ocultar a senha do funcionário -->
-		<!-- Você pode adicionar um link para alterar a senha do funcionário -->
-		<!-- Lembre-se de criar uma página separada para alterar a senha -->
-		(<a href="#">Alterar Senha</a>)
-
-		<!-- Campo de senha de confirmação -->
-		<p>Senha de Confirmação: <input type="password" id="password" th:field="*{password}" required /></p>
-
-		<p><input type="submit" /> |
-			(<a href="#">Cancelar</a>) |
-			(<a href="#">Excluir Conta</a>) </p>
-	</form>
-
-	<a href="/funcionario/listar">Voltar para a Lista de Funcionários</a>
+    <h1>Editar Funcionário</h1>
+    <form action="/funcionario/atualizar" method="post">
+        <input type="hidden" id="id" name="id" th:value="${funcionario.id}" />
+        <fieldset>
+            <label>Nome: </label><br>
+            <input type="text" id="nome" name="nome" th:value="${funcionario.nome}" /><br>
+            <label>Sobrenome: </label><br>
+            <input type="text" id="sobrenome" name="sobrenome" th:value="${funcionario.sobrenome}" /><br>
+            <label>Telefone: </label><br>
+            <input type="text" id="telefone" name="telefone" th:value="${funcionario.telefone}" /><br>
+            <label>Senha:</label><br>
+            <input type="password" id="senha" name="senha" th:value="${funcionario.senha}" /><br>
+            <label>Cargo:</label><br>
+            <input type="text" id="cargo" name="cargo" th:value="${funcionario.cargo}" /><br>
+            <label>Salário:</label><br>
+            <input type="number" step="0.01" id="salario" name="salario" th:value="${funcionario.salario}" /><br>
+            <label>Email:</label><br>
+            <input type="email" id="email" name="email" th:value="${funcionario.email}" /><br><br>
+            <button type="submit" value="editar">Editar</button>
+        </fieldset>
+        <a href="/funcionario/listar">Voltar para a Lista de Funcionários</a>
+    </form>
 </body>
-
 </html>

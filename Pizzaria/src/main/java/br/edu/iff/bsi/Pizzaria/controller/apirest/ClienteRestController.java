@@ -10,7 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("/api/v1/clientes")
 public class ClienteRestController {
 
     @Autowired
@@ -22,27 +22,27 @@ public class ClienteRestController {
     public List<Cliente> getAllClientes() {
         return clienteService.getAllClientes();
     }
-
-    @GetMapping("/{id}")
-	@ResponseBody
-	@Operation(summary = "Retornar um cliente em especifíco")
-    public Cliente getClienteById(@PathVariable Long id) {
-        return clienteService.getClienteById(id);
-    }
-
-    @PostMapping
-    @ResponseBody
-    @Operation(summary = "Adicionar um cliente em especifíco")
-    public Cliente createCliente(@RequestBody Cliente cliente) {
-        return clienteService.createCliente(cliente);
-    }
-
-    @PutMapping("/{id}")
-	@ResponseBody
-	@Operation(summary = "Atualizar um cliente em especifíco")
-    public Cliente updateCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
-        return clienteService.updateCliente(id, cliente);
-    }
+//
+//    @GetMapping("/{id}")
+//	@ResponseBody
+//	@Operation(summary = "Retornar um cliente em especifíco")
+//    public Cliente getClienteById(@PathVariable Long id) {
+//        return clienteService.getClienteById(id);
+//    }
+//
+//    @PostMapping
+//    @ResponseBody
+//    @Operation(summary = "Adicionar um cliente em especifíco")
+//    public Cliente createCliente(@RequestBody Cliente cliente) {
+//        return clienteService.createCliente(cliente);
+//    }
+//
+//    @PutMapping("/{id}")
+//	@ResponseBody
+//	@Operation(summary = "Atualizar um cliente em especifíco")
+//    public Cliente updateCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
+//        return clienteService.updateCliente(id, cliente);
+//    }
 
     @DeleteMapping("/{id}")
 	@ResponseBody
