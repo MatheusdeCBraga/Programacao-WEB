@@ -31,7 +31,7 @@ public class ClienteController {
         model.addAttribute("cliente", new Cliente());
         return "cliente";
     }
-
+    
     @PostMapping("/saveCliente")
     public String registerCliente(@ModelAttribute Cliente cliente) {
         clienteService.salvarCliente(cliente);
@@ -40,28 +40,31 @@ public class ClienteController {
 
     @GetMapping("/listar")
     public String listarClientes(Model model) {
-        List<Cliente> clientes = clienteService.listarClientes();
+        List<Cliente> clientes = clienteService.getAllClientes();
         model.addAttribute("clientes", clientes);
         return "listaClientes";
     }
+	
+	    @GetMapping("/editar")
+	    public String editarCliente(@RequestParam Long id, Model model) throws NotFoundException {
+	        Cliente cliente = clienteService.getClienteById(id);
+	        model.addAttribute("cliente", cliente); 
+	        return "editarCliente";
+	    }
+	
+	    @PostMapping("/atualizar")
+	    public String atualizarCliente(@ModelAttribute Cliente cliente) {
+	        clienteService.updateCliente(cliente.getId(), cliente);
+	        return "redirect:/cliente/listar";
+	    }
 
-    @GetMapping("/editar")
-    public String editarCliente(@RequestParam Long id, Model model) throws NotFoundException {
-        Cliente cliente = clienteService.buscarClientePorId(id);
-        model.addAttribute("cliente", cliente); 
-        return "editarCliente";
-    }
-
-    @PostMapping("/atualizar")
-    public String atualizarCliente(@ModelAttribute Cliente cliente) {
-        clienteService.atualizarCliente(cliente);
-        return "redirect:/cliente/listar";
-    }
 
     @GetMapping("/excluir")
     public String excluirCliente(@RequestParam Long id) {
-        clienteService.removerCliente(id);
+        clienteService.deleteCliente(id);
         return "redirect:/cliente/listar";
     }
+    
 }
+
 

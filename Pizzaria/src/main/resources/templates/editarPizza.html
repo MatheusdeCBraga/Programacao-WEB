@@ -1,19 +1,63 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Pizza</title>]
+    <title>Editar Pizza</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            padding: 0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header,
+        main,
+        footer {
+            padding: 20px;
+        }
+
+        header{
+            background-color: #FFA500;
+            color: #fff;
+            text-align: center;
+        }
+
+        main {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
 </head>
-<body>
     <h1>Editar Pizza</h1>
     
     <form th:object="${pizza}" th:action="@{/pizza/atualizar}" method="post">
 		<input type="hidden" name="_method" value="put" />
         <input type="hidden" th:field="*{id}" />
         
-        <label for="tamanho">Tamanho:</label>
-        <input type="text" id="tamanho" th:field="*{tamanho}" />
+        <label for="tamanhoDaPizza">Tamanho da Pizza:</label> <!-- Novo campo para o tamanho da pizza -->
+        <input type="text" id="tamanhoDaPizza" th:field="*{tamanhoDaPizza}" required><br><br> <!-- Novo campo para o tamanho da pizza -->
         
         <label for="sabor">Sabor:</label>
         <input type="text" id="sabor" th:field="*{sabor}" />
@@ -35,3 +79,4 @@
     <a href="/pizza/listar">Voltar para a Lista de Pizzas</a>
 </body>
 </html>
+

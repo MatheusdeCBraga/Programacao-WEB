@@ -101,7 +101,7 @@ public class PizzaController {
 	}
 
 	@PostMapping("/atualizar")
-	public String atualizarPizza(@ModelAttribute Pizza pizza) {
+	public String atualizarPizza(@ModelAttribute Pizza pizza) throws NotFoundException {
 		pizzaService.atualizarPizza(pizza);
 		return "redirect:/pizza/listar";
 	}
@@ -111,6 +111,5 @@ public class PizzaController {
 		pizzaService.removerPizza(id);
 		return "redirect:/pizza/listar";
 	}
-	
 	
 }

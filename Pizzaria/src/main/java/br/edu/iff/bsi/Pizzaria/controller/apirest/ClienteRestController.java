@@ -1,66 +1,53 @@
 package br.edu.iff.bsi.Pizzaria.controller.apirest;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.edu.iff.bsi.Pizzaria.entities.Cliente;
 import br.edu.iff.bsi.Pizzaria.service.ClienteService;
+import io.swagger.v3.oas.annotations.Operation;
+
+import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/v1/cliente")
+@RequestMapping("/api/v1/clientes")
 public class ClienteRestController {
 
     @Autowired
-    public ClienteService clienteServ;
-
-    @PostMapping("")
-    public ResponseEntity<Cliente> addCliente(@RequestBody Cliente cliente) {
-        clienteServ.salvarCliente(cliente);
-        return ResponseEntity.status(HttpStatus.CREATED).body(cliente);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Cliente> atualizarCliente(
-            @PathVariable Long id,
-            @RequestBody Cliente clienteAtualizado
-    ) throws NotFoundException {
-        Cliente cliente = clienteServ.realizarAtualizacaoCliente(id, clienteAtualizado);
-		return ResponseEntity.ok(cliente);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarCliente(@PathVariable Long id) {
-        clienteServ.removerCliente(id);
-        return ResponseEntity.noContent().build();
-    }
+    private ClienteService clienteService;
 
     @GetMapping("")
-    public ResponseEntity<List<Cliente>> listarClientes() {
-        List<Cliente> clientes = clienteServ.listarClientes();
-        return ResponseEntity.ok(clientes);
+	@ResponseBody
+	@Operation(summary = "Listar todos os clientes")
+    public List<Cliente> getAllClientes() {
+        return clienteService.getAllClientes();
     }
+//
+//    @GetMapping("/{id}")
+//	@ResponseBody
+//	@Operation(summary = "Retornar um cliente em especifíco")
+//    public Cliente getClienteById(@PathVariable Long id) {
+//        return clienteService.getClienteById(id);
+//    }
+//
+//    @PostMapping
+//    @ResponseBody
+//    @Operation(summary = "Adicionar um cliente em especifíco")
+//    public Cliente createCliente(@RequestBody Cliente cliente) {
+//        return clienteService.createCliente(cliente);
+//    }
+//
+//    @PutMapping("/{id}")
+//	@ResponseBody
+//	@Operation(summary = "Atualizar um cliente em especifíco")
+//    public Cliente updateCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
+//        return clienteService.updateCliente(id, cliente);
+//    }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Cliente> buscarClienteId(@PathVariable Long id) {
-        try {
-            Cliente cliente = clienteServ.buscarClientePorId(id);
-            return ResponseEntity.ok(cliente);
-        } catch (NotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @DeleteMapping("/{id}")
+	@ResponseBody
+	@Operation(summary = "Deletar um cliente em especifíco")
+    public void deleteCliente(@PathVariable Long id) {
+        clienteService.deleteCliente(id);
     }
 }
-
-

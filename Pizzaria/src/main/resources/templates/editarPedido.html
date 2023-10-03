@@ -1,25 +1,92 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Editar Pedido</title> 
-</head> 
-<body> 
-    <h1>Editar Pedido</h1> 
-    <form action="/pedidos/{id}" method="POST"> 
-        <input type="hidden" name="_method" value="PUT"> 
-        <label for="dataDoPedido">Data do Pedido:</label><br> 
-        <input type="date" id="dataDoPedido" name="dataDoPedido" value="{dataDoPedido}"><br><br> 
-        <label for="numeroPedido">Número do Pedido:</label><br> 
-        <input type="text" id="numeroPedido" name="numeroPedido" value="{numeroPedido}"><br><br> 
-        <label for="cliente">Cliente:</label><br> 
-        <select id="cliente" name="cliente"> 
-            <!-- Opções de clientes aqui --> 
-        </select><br><br> 
-        <label for="funcionario">Funcionário:</label><br> 
-        <select id="funcionario" name="funcionário"> 
-            <!-- Opções de funcionários aqui --> 
-        </select><br><br> 
-        <input type="submit" value="Salvar Alterações"> 
-    </form> 
-</body> 
-</html> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Pedido</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            padding: 0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header,
+        main,
+        footer {
+            padding: 20px;
+        }
+
+        header{
+            background-color: #FFA500;
+            color: #fff;
+            text-align: center;
+        }
+
+        main {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+
+<body>
+	<h1>Editar Pedido</h1>
+
+	<form th:object="${pedido}" th:action="@{/pedido/atualizar}" method="post">
+		<input type="hidden" name="_method" value="put" />
+		<input type="hidden" th:field="*{id}" />
+
+		<label for="formaDePagamento">Forma de Pagamento:</label>
+		<input type="text" id="formaDePagamento" th:field="*{formaDePagamento}" required><br><br>
+
+		<fieldset>
+			<legend>Cliente:</legend>
+			<select th:field="*{cliente}">
+				<option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nome}"></option>
+			</select>
+		</fieldset>
+
+
+		<fieldset>
+			<legend>Funcionario:</legend>
+			<select th:field="*{funcionario}">
+				<option th:each="funcionario : ${funcionarios}" th:value="${funcionario.id}" th:text="${funcionario.nome}"></option>
+			</select>
+		</fieldset>
+		<fieldset>
+			<legend>Pizzas:</legend>
+			<select th:field="*{pizza}" multiple>
+				<option th:each="pizza : ${pizzas}" th:value="${pizza.id}" th:text="${pizza.sabor}"></option>
+			</select>
+		</fieldset>
+
+		<button type="submit">Atualizar Pedido</button>
+	</form>
+
+	<a href="/pedido/listar">Voltar para a Lista de Pedidos</a>
+</body>
+
+</html>

@@ -7,111 +7,126 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 import java.io.Serializable;
 
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
-
+import java.util.Calendar;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Pedido implements Serializable {
-	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
 
-	@Column(nullable = false)
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date dataDoPedido;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    
+//    @Temporal(TemporalType.TIMESTAMP)
+//	private Calendar dataDoPedido;
 
-	@Column(nullable = false, unique = true)
-	private String numeroPedido;
+    @ManyToMany
+	@JoinTable(name = "pedido_pizza",
+				joinColumns = @JoinColumn(name = "pedido_id"),
+				inverseJoinColumns = @JoinColumn(name = "pizza_id"))
+	private List<Pizza> pizzas;
+    
+    @Column(nullable = false)
+    private String formaDePagamento;
 
-	@ManyToOne
-	@JoinColumn(name = "cliente_id")
-	private Cliente cliente;
+    @ManyToOne
+    private Cliente cliente;
 
-	@ManyToOne
-	@JoinColumn(name = "funcionario_id")
-	private Funcionario funcionario;
+    @ManyToOne
+    private Funcionario funcionario;
+    
 
-	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ItemPedido> itensPedido = new ArrayList<>();
+    
+    public Pedido() {
+    	
+    }
+    
 
-	@OneToOne(mappedBy = "pedido")
-	private Entrega entrega;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
+    public Pedido(Long id, List<Pizza> pizzas, String formaDePagamento, Cliente cliente,
+			Funcionario funcionario) {
+		super();
 		this.id = id;
-	}
-
-	public String getNumeroPedido() {
-		return numeroPedido;
-	}
-
-	public void setNumeroPedido(String numeroPedido) {
-		this.numeroPedido = numeroPedido;
-	}
-
-	public Date getDataDoPedido() {
-		return dataDoPedido;
-	}
-
-	public void setDataDoPedido(Date dataDoPedido) {
-		this.dataDoPedido = dataDoPedido;
-	}
-
-	// public List<ItemPedido> getItensPedido() {
-	// return itensPedido;
-	// }
-
-	// public void setItensPedido(List<ItemPedido> itensPedido) {
-	// this.itensPedido = itensPedido;
-	// }
-	
-	 public List<ItemPedido> getItensPedido() {
-	        return itensPedido;
-	    }
-
-	    public void setItensPedido(List<ItemPedido> itensPedido) {
-	        this.itensPedido = itensPedido;
-	    }
-
-	    public void adicionarItemPedido(ItemPedido itemPedido) {
-	        itemPedido.setPedido(this); // Associe o pedido ao itemPedido
-	        itensPedido.add(itemPedido);
-	    }
-
-	    public void removerItemPedido(ItemPedido itemPedido) {
-	        itensPedido.remove(itemPedido);
-	        itemPedido.setPedido(null); // Remova a associação do itemPedido com o pedido
-	    }
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
+		this.formaDePagamento = formaDePagamento;
 		this.cliente = cliente;
-	}
-
-	public Funcionario getFuncionario() {
-		return funcionario;
-	}
-
-	public void setFuncionario(Funcionario funcionario) {
+		this.pizzas = pizzas;
 		this.funcionario = funcionario;
+		
 	}
 
+
+//	public Calendar getDataDoPedido() {
+//        return dataDoPedido;
+//    }
+//
+//    public void setDataDoPedido(Calendar dataDoPedido) {
+//        this.dataDoPedido = dataDoPedido;
+//    }
+
+
+    public String getFormaDePagamento() {
+        return formaDePagamento;
+    }
+
+    public void setFormaDePagamento(String formaDePagamento) {
+        this.formaDePagamento = formaDePagamento;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
+    }
+
+  
+    
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+	public List<Pizza> getPizza() {
+		return pizzas;
+	}
+
+
+	public void setPizza(List<Pizza> pizza) {
+		this.pizzas = pizza;
+	}
+
+	
+	
+
+
+
+	
+    
+    
 }

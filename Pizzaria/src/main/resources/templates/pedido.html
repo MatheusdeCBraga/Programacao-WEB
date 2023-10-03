@@ -2,139 +2,97 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Cadastro de Pedido</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Pedido</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            padding: 0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header,
+        main,
+        footer {
+            padding: 20px;
+        }
+
+        header{
+            background-color: #FFA500;
+            color: #fff;
+            text-align: center;
+        }
+
+        main {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
 </head>
 
 <body>
-	<h2>Cadastro de Pedido</h2>
+	<h1>Cadastro de Pedido</h1>
+
 	<form action="/pedido/savePedido" method="post">
-		<label for="dataDoPedido">Data do Pedido:</label>
-		<input type="date" id="dataDoPedido" name="dataDoPedido" required><br><br>
-		<script>
-			const dataDoPedido = document.getElementById("dataDoPedido");
-			dataDoPedido.value = new Date().toISOString().slice(0, 10);
 
-			dataDoPedido.addEventListener('change', () => {
-				const [year, month, day] = dataDoPedido.value.split('-');
-				dataDoPedido.value = `${year}-${month}-${day}`;
-			});
-
-		</script>
-		<label for="cliente">Cliente:</label>
-		<select name="cliente.id">
-			<option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nome}">
-			</option>
+		<label for="formaDePagamento">Forma de Pagamento:</label>
+		<select id="formaDePagamento" name="formaDePagamento">
+			<option value="Cartão de Crédito">Cartão de Crédito</option>
+			<option value="Dinheiro">Dinheiro</option>
 		</select><br><br>
 
-		<label for="funcionario">Funcionário:</label>
-		<select name="funcionario.id">
-			<option th:each="funcionario : ${funcionarios}" th:value="${funcionario.id}" th:text="${funcionario.nome}">
-			</option>
-		</select><br><br>
-
-
+		<fieldset>
+			<legend>Clientes:</legend>
+			<th:block th:each="cliente : ${clientes}">
+				<input type="radio" th:id="${cliente.id}" th:name="selectedCliente" th:value="${cliente.id}" />
+				<label th:text="${cliente.nome}" th:for="${cliente.id}"></label><br />
+			</th:block>
+		</fieldset>
 
 
 		<fieldset>
-			<legend>Itens do Pedido:</legend>
-			<div id="itensPedido">
-				<div class="itemPedido">
-					<fieldset>
-						<label for="tamanho">Tamanho:</label>
-						<select id="tamanho" name="tamanho">
-							<option value="Maracanã">Maracanã</option>
-							<option value="Grande">Grande</option>
-							<option value="Média">Média</option>
-							<option value="Pequena">Pequena</option>
-						</select><br><br>
-						<legend>Pizza:</legend>
-						<div class="form-group">
-							<label for="saborPizza">Sabor da Pizza:</label>
-							<select class="form-control" id="saborPizza" name="saborPizza">
-								<option th:each="sabor : ${saboresPizza}" th:value="${sabor}" th:text="${sabor}">
-								</option>
-							</select>
-						</div>
-						<table>
-							<tr>
-								<th>Quantidade</th>
-								<th>Sabor</th>
-								
-							</tr>
-							<tr th:each="item : ${pedido.itensPedido}">
-								<td th:text="${item.quantidade_de_itens}"></td>
-								<td th:text="${item.pizza.sabor}"></td>
-								<td th:text="${item.pizza.tamanho}"></td>
-							</tr>
-						</table>
-						
-					</fieldset>
-
-					<button type="button" onclick="removerItemPedido(this)">Remover Item</button><br>
-				</div>
-				
+			<legend>Funcionários:</legend>
+			<th:block th:each="funcionario : ${funcionarios}">
+				<input type="radio" th:id="${funcionario.id}" th:name="selectedFuncionario"
+					th:value="${funcionario.id}" />
+				<label th:text="${funcionario.nome}" th:for="${funcionario.id}"></label><br />
+			</th:block>
 		</fieldset>
 
-		<button type="button" onclick="adicionarItemPedido()">Adicionar Item</button><br>
 
-		<button type="submit">Salvar Pedido</button>
+		<fieldset>
+			<legend>Pizzas:</legend>
+			<th:block th:each="pizza : ${pizzas}">
+				<input type="checkbox" th:id="${pizza.id}" th:name="selectedPizzas" 
+				th:value="${pizza.id}" />
+				<label th:text="${pizza.sabor}" th:for="${pizza.id}"></label><br />
+			</th:block>
+		</fieldset>
 
+
+		<button type="submit">Cadastrar Pedido</button>
 	</form>
-
-
-	<script>
-		function adicionarItemPedido() {
-			const itensPedido = document.getElementById("itensPedido");
-			const novoItem = document.createElement("div");
-			novoItem.className = "itemPedido";
-			novoItem.innerHTML = `
-        <fieldset>
-            <legend>Pizza:</legend>
-            <label for="tamanho">Tamanho:</label>
-            <select name="tamanho">
-                <option value="Maracanã">Maracanã</option>
-                <option value="Grande">Grande</option>
-                <option value="Média">Média</option>
-                <option value="Pequena">Pequena</option>
-            </select><br><br>
-            <div class="form-group">
-                <label for="saborPizza">Sabor da Pizza:</label>
-                <select class="form-control" name="saborPizza">
-                    <!-- The pizza flavors will be populated here by the controller -->
-                </select>
-            </div>
-
-            <label for="quantidade">Quantidade:</label>
-            <input type="number" name="quantidade" value="1"><br>
-        </fieldset>
-        <button type="button" onclick="removerItemPedido(this)">Remover Item</button><br>
-    `;
-			itensPedido.appendChild(novoItem);
-
-			// Get the pizza flavors from the server
-			fetch('/pedido/getSaboresPizza')
-				.then(response => response.json())
-				.then(saboresPizza => {
-					// Populate the select element with the pizza flavors
-					const selectSaborPizza = novoItem.querySelector('select[name="saborPizza"]');
-					for (const sabor of saboresPizza) {
-						const option = document.createElement('option');
-						option.value = sabor;
-						option.textContent = sabor;
-						selectSaborPizza.appendChild(option);
-					}
-				});
-		}
-
-		function removerItemPedido(button) {
-			const itemPedido = button.parentElement;
-			itemPedido.remove();
-		}
-
-
-	</script>
 </body>
 
 </html>

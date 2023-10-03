@@ -26,7 +26,7 @@ public class FuncionarioController {
         model.addAttribute("funcionario", new Funcionario());
         return "funcionario";
     }
-
+    
     @PostMapping("/saveFuncionario")
     public String registerFuncionario(@ModelAttribute Funcionario funcionario) {
         funcionarioService.salvarFuncionario(funcionario);
@@ -35,27 +35,28 @@ public class FuncionarioController {
 
     @GetMapping("/listar")
     public String listarFuncionarios(Model model) {
-        List<Funcionario> funcionarios = funcionarioService.listarFuncionarios();
+        List<Funcionario> funcionarios = funcionarioService.getAllFuncionarios();
         model.addAttribute("funcionarios", funcionarios);
         return "listaFuncionarios";
     }
 
     @GetMapping("/editar")
     public String editarFuncionario(@RequestParam Long id, Model model) throws NotFoundException {
-        Funcionario funcionario = funcionarioService.buscarFuncionarioPorId(id);
+        Funcionario funcionario = funcionarioService.getFuncionarioById(id);
         model.addAttribute("funcionario", funcionario); 
         return "editarFuncionario";
     }
 
     @PostMapping("/atualizar")
     public String atualizarFuncionario(@ModelAttribute Funcionario funcionario) {
-        funcionarioService.atualizarFuncionario(funcionario);
+        funcionarioService.updateFuncionario(funcionario.getId(), funcionario);
         return "redirect:/funcionario/listar";
     }
 
+
     @GetMapping("/excluir")
     public String excluirFuncionario(@RequestParam Long id) {
-        funcionarioService.removerFuncionario(id);
+        funcionarioService.deleteFuncionario(id);
         return "redirect:/funcionario/listar";
     }
 }

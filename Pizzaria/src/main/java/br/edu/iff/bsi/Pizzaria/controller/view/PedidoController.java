@@ -1,11 +1,14 @@
 package br.edu.iff.bsi.Pizzaria.controller.view;
 
+import br.edu.iff.bsi.Pizzaria.entities.Cliente;
+import br.edu.iff.bsi.Pizzaria.entities.Funcionario;
+import br.edu.iff.bsi.Pizzaria.entities.Ingrediente;
 import br.edu.iff.bsi.Pizzaria.entities.ItemPedido;
 import br.edu.iff.bsi.Pizzaria.entities.Pedido;
 import br.edu.iff.bsi.Pizzaria.entities.Pizza;
 import br.edu.iff.bsi.Pizzaria.repository.PizzaRepository;
-//import br.edu.iff.bsi.Pizzaria.entities.Pedido;
-//import br.edu.iff.bsi.Pizzaria.service.PedidoService;
+import br.edu.iff.bsi.Pizzaria.entities.Pedido;
+import br.edu.iff.bsi.Pizzaria.service.PedidoService;
 import br.edu.iff.bsi.Pizzaria.service.PizzaService;
 import br.edu.iff.bsi.Pizzaria.service.ClienteService;
 import br.edu.iff.bsi.Pizzaria.service.FuncionarioService;
@@ -19,10 +22,12 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,68 +54,41 @@ public class PedidoController {
 
 	@GetMapping("/cadastro")
 	public String showCadastroPedidoForm(Model model) {
-		model.addAttribute("pedido", new Pedido());
-		model.addAttribute("saboresPizza", pizzaService.listarSaboresPizza());
-		model.addAttribute("clientes", clienteService.listarClientes());
-		model.addAttribute("funcionarios", funcionarioService.listarFuncionarios());
-		return "pedido";
+	    model.addAttribute("pedido", new Pedido());
+	    
+	    List<Pizza> pizzas = pizzaService.listarPizzasComIngredientes();
+	    model.addAttribute("pizzas", pizzas);
+	    
+	    List<Cliente> clientes = clienteService.getAllClientes(); // Busca a lista de clientes
+	    model.addAttribute("clientes", clientes); // Adiciona a lista de clientes ao modelo
+	    
+	    List<Funcionario> funcionarios = funcionarioService.getAllFuncionarios(); // Busca a lista de funcionários
+	    model.addAttribute("funcionarios", funcionarios); // Adiciona a lista de funcionários ao modelo
+
+	    return "pedido";
 	}
 
-	@GetMapping("/getSaboresPizza")
-	@ResponseBody
-	public List<String> getSaboresPizza() {
-		List<String> saboresPizza = pizzaService.listarSaboresPizza();
-		return saboresPizza;
-	}
-
-	private static int numeroPedidoCounter = 1;
-
-	private String gerarNumeroPedidoUnico() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-		String dataFormatada = dateFormat.format(new Date());
-
-		String numeroPedido = dataFormatada + "-" + numeroPedidoCounter;
-		numeroPedidoCounter++;
-
-		return numeroPedido;
-	}
 
 	@PostMapping("/savePedido")
-	public String savePedido(@ModelAttribute Pedido pedido, HttpServletRequest request) {
-		String numeroPedido = gerarNumeroPedidoUnico();
-		pedido.setNumeroPedido(numeroPedido);
+	public String registerPedido(@ModelAttribute Pedido pedido,
+	        @RequestParam("selectedPizzas") List<Long> selectedPizzasIds,
+	        @RequestParam("selectedCliente") Long selectedClienteId,
+	        @RequestParam("selectedFuncionario") Long selectedFuncionarioId) throws NotFoundException {
+		List<Pizza> selectedPizzas = pizzaService.buscarPizzaPorIds(selectedPizzasIds);
+		pedido.setPizza(selectedPizzas);
 
-		List<ItemPedido> itensPedido = new ArrayList<>();
+	    Cliente selectedCliente = clienteService.getClienteById(selectedClienteId);
+	    pedido.setCliente(selectedCliente);
 
-		Enumeration<String> parameterNames = request.getParameterNames();
-		while (parameterNames.hasMoreElements()) {
-			String paramName = parameterNames.nextElement();
-			if (paramName.startsWith("sabor")) {
-				String sabor = request.getParameter(paramName);
-				String quantidadeParamName = "quantidade" + paramName.substring(5);
-				String quantidadeValue = request.getParameter(quantidadeParamName);
+	    Funcionario selectedFuncionario = funcionarioService.getFuncionarioById(selectedFuncionarioId);
+	    pedido.setFuncionario(selectedFuncionario);
 
-				if (quantidadeValue != null && !quantidadeValue.isEmpty()) {
-					int quantidade = Integer.parseInt(quantidadeValue);
-					Pizza pizza = pizzaRepository.findBySabor(sabor);
+	    pedidoService.salvarPedido(pedido, selectedPizzasIds, selectedClienteId, selectedFuncionarioId);
 
-					ItemPedido itemPedido = new ItemPedido();
-					itemPedido.setQuantidade_de_itens(quantidade);
-					itemPedido.setPizza(pizza);
-					itemPedido.setPedido(pedido);
-					itensPedido.add(itemPedido);
-				}
-			}
-		}
 
-		pedido.setItensPedido(itensPedido);
-
-		pedidoService.salvarPedido(pedido);
-
-		System.out.println("Salvando pedido: " + pedido);
-
-		return "redirect:/pedido/listar";
+	    return "redirect:/pedido/listar";
 	}
+
 
 	@GetMapping("/listar")
 	public String listarPedidos(Model model) {
@@ -120,15 +98,20 @@ public class PedidoController {
 	}
 
 	@GetMapping("/editar")
-	public String editarPedido(@RequestParam Long id, Model model) {
-		try {
-			Pedido pedido = pedidoService.buscarPedidoPorId(id);
-			model.addAttribute("pedido", pedido);
-			return "editarPedido";
-		} catch (RuntimeException e) {
-			throw new RuntimeException("Pedido não encontrado", e);
-		}
+	public String editarPedido(@RequestParam Long id, Model model) throws NotFoundException {
+	    Pedido pedido = pedidoService.buscarPedidoPorId(id);
+	    List<Cliente> cliente = clienteService.getAllClientes();
+	    List<Funcionario> funcionario = funcionarioService.getAllFuncionarios();
+	    List<Pizza> pizza = pizzaService.listarPizzasComIngredientes();
+
+	    model.addAttribute("pedido", pedido);
+	    model.addAttribute("clientes", cliente);
+	    model.addAttribute("funcionarios", funcionario);
+	    model.addAttribute("pizzas", pizza);
+
+	    return "editarPedido";
 	}
+
 
 	@PostMapping("/atualizar")
 	public String atualizarPedido(@ModelAttribute Pedido pedido) {
@@ -142,9 +125,4 @@ public class PedidoController {
 		return "redirect:/pedido/listar";
 	}
 
-	@GetMapping("/listarTodosAtributos")
-	public List<Pedido> listarTodosAtributos() {
-		List<Pedido> pedidos = pedidoService.listarPedidos();
-		return pedidos;
-	}
 }

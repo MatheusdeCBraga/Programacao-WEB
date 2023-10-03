@@ -1,66 +1,57 @@
 package br.edu.iff.bsi.Pizzaria.controller.apirest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import br.edu.iff.bsi.Pizzaria.entities.Ingrediente;
+import br.edu.iff.bsi.Pizzaria.repository.IngredienteRepository;
+import io.swagger.v3.oas.annotations.Operation;
+
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import br.edu.iff.bsi.Pizzaria.service.IngredienteService;
-import br.edu.iff.bsi.Pizzaria.entities.*;
-
 @RestController
-@RequestMapping("/api/v1/ingrediente")
+@RequestMapping("/api/v1/ingredientes")
 public class IngredienteRestController {
 
     @Autowired
-    private IngredienteService ingredienteService;
+    private IngredienteRepository ingredienteRepository;
 
-    @PostMapping("")
-    public ResponseEntity<Ingrediente> addIngrediente(@RequestBody Ingrediente ingrediente) {
-        ingredienteService.salvarIngrediente(ingrediente);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ingrediente);
+    @GetMapping
+    @ResponseBody
+	@Operation(summary = "Listar todos os clientes")
+    public List<Ingrediente> getAllIngredientes() {
+        return ingredienteRepository.findAll();
     }
 
-    @GetMapping("")
-    public ResponseEntity<List<Ingrediente>> listarIngredientes() {
-        List<Ingrediente> ingredientes = ingredienteService.listarIngredientes();
-        return ResponseEntity.ok(ingredientes);
-    }
     @GetMapping("/{id}")
-    public ResponseEntity<Ingrediente> buscarIngredienteId(@PathVariable Long id) {
-        try {
-            Ingrediente ingrediente = ingredienteService.buscarIngredientePorId(id);
-            return ResponseEntity.ok(ingrediente);
-        } catch (NotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @ResponseBody
+	@Operation(summary = "Retornar um ingrediente em especifíco")
+    public Ingrediente getIngredienteById(@PathVariable Long id) {
+        return ingredienteRepository.findById(id).orElse(null);
     }
 
+    @PostMapping
+    @ResponseBody
+	@Operation(summary = "Adiconar um ingrediente em especifíco")
+    public Ingrediente createIngrediente(@RequestBody Ingrediente ingrediente) {
+        return ingredienteRepository.save(ingrediente);
+    }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Ingrediente> atualizarIngrediente(@PathVariable Long id, @RequestBody Ingrediente ingredienteAtualizado) throws NotFoundException {
-        Ingrediente ingrediente = ingredienteService.buscarIngredientePorId(id);
-        ingrediente.setNome(ingredienteAtualizado.getNome());
-        ingrediente.setQuantidadeEstoque(ingredienteAtualizado.getQuantidadeEstoque());
-        ingrediente.setPreco(ingredienteAtualizado.getPreco());
-
-        ingredienteService.atualizarIngrediente(ingrediente);
-        return ResponseEntity.ok(ingrediente);
+    @ResponseBody
+	@Operation(summary = "Atualizar um ingrediente em especifíco")
+    public Ingrediente updateIngrediente(@PathVariable Long id, @RequestBody Ingrediente ingrediente) {
+        if (ingredienteRepository.existsById(id)) {
+            ingrediente.setId(id);
+            return ingredienteRepository.save(ingrediente);
+        }
+        return null;
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluirIngrediente(@PathVariable Long id) {
-        ingredienteService.removerIngrediente(id);
-        return ResponseEntity.noContent().build();
+    @ResponseBody
+	@Operation(summary = "Remover um ingrediente em especifíco")
+    public void deleteIngrediente(@PathVariable Long id) {
+        ingredienteRepository.deleteById(id);
     }
 }

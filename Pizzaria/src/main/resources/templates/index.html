@@ -1,22 +1,244 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <title>Formulário de Registro</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Pizzaria Web</title>
+	<link rel="stylesheet" href="/src/main/resources/static.css/bootstrap.min.css">
+	<link rel="stylesheet" href="/src/main/resources/static.css/dashboard.css">
+	<script src="/src/main/resources/static.js/bootstrap.bundle.min.js"></script>
+	<script src="/src/main/resources/static.js/dashboard.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<style>
+		/* Estilos personalizados */
+		body {
+			background-color: #f0f0f0;
+			/* Cor de fundo */
+			padding: 0;
+			margin: 0;
+			font-family: Arial, sans-serif;
+		}
+
+		header,
+		main,
+		footer {
+			padding: 20px;
+			/* Espaçamento interno */
+		}
+
+		header{
+			background-color: #FFA500;
+			/* Cor de fundo do cabeçalho */
+			color: #fff;
+			/* Cor do texto do cabeçalho */
+			text-align: center;
+		}
+
+		main {
+			background-color: #fff;
+			/* Cor de fundo do corpo */
+			border-radius: 8px;
+			/* Borda arredondada */
+			box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+			/* Sombra */
+			padding: 20px;
+		}
+
+		footer {
+			background-color: #333;
+			/* Cor de fundo do rodapé */
+			color: #fff;
+			/* Cor do texto do rodapé */
+			text-align: center;
+			padding: 20px;
+		}
+
+		/* Estilos dos cards */
+		.card {
+			margin-bottom: 20px;
+			/* Espaçamento entre os cards */
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			/* Sombra nos cards */
+			text-align: center;
+		}
+
+		.card-title {
+			font-size: 18px;
+			color: #333;
+			/* Cor do título do card */
+		}
+
+		.card-text {
+			color: #666;
+			/* Cor do texto do card */
+			text-align: center;
+		}
+
+		.card-icon {
+			font-size: 48px;
+			text-align: center;
+			margin-bottom: 10px;
+		}
+
+		/* Estilos da seção de Promoções */
+		.promo-section {
+			background-color: #FFD700;
+			/* Cor de fundo da seção de Promoções */
+			text-align: center;
+			padding: 40px 0;
+		}
+
+		.promo-title {
+			font-size: 32px;
+			color: #333;
+			/* Cor do título de Promoções */
+		}
+
+		/* Estilos dos links de acesso rápido */
+		.quick-access-links {
+			display: flex;
+			justify-content: center;
+			margin-top: 30px;
+		}
+
+		.quick-access-card {
+			width: 300px;
+			margin: 0 10px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			/* Sombra nos cards de acesso rápido */
+		}
+
+		.btn-primary {
+			background-color: #FFA500;
+			color: #fff;
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			text-decoration: none;
+			font-weight: bold;
+			transition: background-color 0.3s;
+			display: block;
+			margin: 0 auto;
+		}
+
+		.btn-primary:hover {
+			background-color: #FF8C00;
+		}
+
+		.pizza-image {
+			max-width: 15%;
+			height: auto;
+			border-radius: 60px;
+		}
+
+		.card-img-top {
+			max-height: 200px;
+			object-fit: cover;
+			height: 100%;
+			
+			
+		}
+	</style>
 </head>
+
 <body>
-  <h2>Formulário de Registro</h2>
+	<header>
+		<div class="container main-content">
+			<h1>Bem-vindo à Pizzaria do Matheus</h1>
+			<p>Site criado para a disciplina de Programação Web!</p>
+			<img src="https://media.istockphoto.com/id/1297109073/pt/vetorial/pizza-store-logo.jpg?s=1024x1024&w=is&k=20&c=6NT1KYDF1yyqG0uBM3f9sd3wFr7LMF42uor6xz6E3qg="
+				alt="Logo da pizzaria" class="pizza-image">
+		</div>
+	</header>
 
-  <form action="/home/savePessoa" method="POST">
-    <label for="nome">Nome:</label>
-    <input type="text" id="nome" name="nome" required><br><br>
+	<main class="container mt-4">
+		<section class="row">
+			<div class="col-md-6">
+				<a href="/pedido/listar" class="quick-access-card">
+					<div class="card">
+						<img src="https://media.istockphoto.com/id/1420799375/pt/foto/margheritas-pizza.jpg?s=1024x1024&w=is&k=20&c=sqbnq50aK77O2c4ur0UEuGqkUsK75_RJ0lsmglIypJ0="
+							class="card-img-top" alt="Pedidos">
+						<div class="card-body">
+							<h5 class="card-title">Pedidos</h5>
+							<p class="card-text">Acesse sua lista de pedidos.</p>
+							<a href="/pedido/listar" class="btn btn-primary">Listar Pedidos</a>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-md-6">
+				<a href="/pizza/listar" class="quick-access-card">
+					<div class="card">
+						<img src="https://media.istockphoto.com/id/166112696/pt/foto/menu-de-pizza-em-veneza-it%C3%A1lia.jpg?s=1024x1024&w=is&k=20&c=cunCAKXDkxkSfqpswMuZrxh1AgyKIq2O8BJoG0Hv32k="
+							class="card-img-top" alt="Cardápio">
+						<div class="card-body">
+							<h5 class="card-title">Cardápio</h5>
+							<p class="card-text">Confira nosso cardápio de pizzas.</p>
+							<a href="/pizza/listar" class="btn btn-primary">Cardápio</a>
+						</div>
+					</div>
+				</a>
+			</div>
+		</section>
+	</main>
 
-    <label for="sobrenome">Nome:</label>
-    <input type="text" id="sobrenome" name="sobrenome" required><br><br>
-    
-    <label for="senha">Senha:</label>
-    <input type="password" id="senha" name="senha" required><br><br>
+	<section class="promo-section">
+		<div class="container">
+			<h2 class="promo-title">Acessos</h2>
+		</div>
+	</section>
 
-    <input type="submit" value="Enviar">
-  </form>
+	<main class="container">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="card">
+					<i class="fa fa-users card-icon" aria-hidden="true"></i>
+					<div class="card-body">
+						<h5 class="card-title">Clientes</h5>
+						<p class="card-text">Encontre nossa lista de clientes e informações úteis de cada um deles.</p>
+						<a href="/cliente/listar" class="btn btn-primary">Listar Clientes</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="card">
+					<i class="fa fa-address-card-o card-icon" aria-hidden="true"></i>
+					<div class="card-body">
+						<h5 class="card-title">Funcionários</h5>
+						<p class="card-text"> Acesse recursos e detalhes sobre nossa equipe.
+						</p>
+						<a href="/funcionario/listar" class="btn btn-primary">Listar Funcionários</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<div class="card">
+					<i class="fa fa-shopping-cart card-icon" aria-hidden="true"></i>
+					<div class="card-body">
+						<h5 class="card-title">Ingredientes</h5>
+						<p class="card-text">Lista de ingredientes de alta qualidade que utilizamos.</p>
+						<a href="/ingrediente/listar" class="btn btn-primary">Listar Ingredientes</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<footer>
+		<div class="container">
+			<p>Nome: Matheus De Carvalho Braga</p>
+			<p>Matrícula:2021112040</p>
+		</div>
+	</footer>
 </body>
+
 </html>

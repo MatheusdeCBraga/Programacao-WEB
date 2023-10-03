@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.OneToMany;
@@ -24,34 +25,44 @@ import jakarta.persistence.Transient;
 @Entity
 @NamedEntityGraph(name = "Pizza.ingredientes", attributeNodes = @NamedAttributeNode("ingredientes"))
 public class Pizza implements Serializable {
-	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+
 	@Column(nullable = false)
 	private String sabor;
+
 	@Column(nullable = false)
-	private float preco;
+	private double preco;
+
 	@OneToMany(mappedBy = "pizza")
-    private List<ItemPedido> itemPedidos = new ArrayList<>();
+	private List<ItemPedido> itemPedidos;
 
-    @ManyToMany
-    @JoinTable(name = "pizza_ingredientes", joinColumns = @JoinColumn(name = "pizza_id"), inverseJoinColumns = @JoinColumn(name = "ingrediente_id"))
-    private List<Ingrediente> ingredientes = new ArrayList<>();
+	@ManyToMany
+	@JoinTable(name = "pizza_ingredientes", joinColumns = @JoinColumn(name = "pizza_id"), 
+	inverseJoinColumns = @JoinColumn(name = "ingrediente_id"))
+	private List<Ingrediente> ingredientes;
 
-	@Override
-	public String toString() {
-		return "Pizza{" + "id=" + id + '\'' + ", sabor='" + sabor + '\'' + ", preco=" + preco + ", ingredientes="
-				+ ingredientes + '}';
+//	@ManyToMany(mappedBy = "pizza")
+//	private List<Pedido> pedido;;
+
+	@Column(nullable = false)
+	private String tamanhoDaPizza;
+
+	public Pizza() {
+
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
+	public Pizza(Long id, String sabor, double preco, List<ItemPedido> itemPedidos, List<Ingrediente> ingredientes,
+			String tamanhoDaPizza) {
+		super();
 		this.id = id;
+		this.sabor = sabor;
+		this.preco = preco;
+		this.itemPedidos = itemPedidos;
+		this.ingredientes = ingredientes;
+		this.tamanhoDaPizza = tamanhoDaPizza;
 	}
 
 	public String getSabor() {
@@ -62,11 +73,11 @@ public class Pizza implements Serializable {
 		this.sabor = sabor;
 	}
 
-	public float getPreco() {
+	public double getPreco() {
 		return preco;
 	}
 
-	public void setPreco(float preco) {
+	public void setPreco(double preco) {
 		this.preco = preco;
 	}
 
@@ -78,22 +89,20 @@ public class Pizza implements Serializable {
 		this.ingredientes = ingredientes;
 	}
 
-	public List<Long> getIngredientesIds() {
-		List<Long> ingredientesIds = new ArrayList<>();
-		for (Ingrediente ingrediente : this.ingredientes) {
-			ingredientesIds.add(ingrediente.getId());
-		}
-		return ingredientesIds;
+	public Long getId() {
+		return id;
 	}
 
-	public Object getTamanho() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public void setTamanho(Object tamanho) {
-		// TODO Auto-generated method stub
+	public String getTamanhoDaPizza() {
+		return tamanhoDaPizza;
+	}
 
+	public void setTamanhoDaPizza(String tamanhoDaPizza) {
+		this.tamanhoDaPizza = tamanhoDaPizza;
 	}
 
 }
